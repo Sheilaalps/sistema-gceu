@@ -1,0 +1,77 @@
+/* --- RESET E LAYOUT --- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  background-color: #1A1D2B; /* Cor de fundo da sua Home */
+  overflow: hidden;
+}
+
+/* --- SIDEBAR --- */
+.sidebar {
+  width: 90px;
+  min-width: 90px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 40px 0;
+  background-color: #2D334D; /* O azul escuro da sua barra */
+}
+
+.sidebar-top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.logo-container {
+  margin-bottom: 60px; /* Distância entre a logo e os ícones */
+}
+
+.main-logo {
+  /* Aumentei consideravelmente o tamanho em pixels */
+  width: 75px;  /* Estava em 55px, aumentei para 75px */
+  
+  /* Mantém a proporção da imagem sem distorcer (essencial para PNG) */
+  height: auto; 
+  
+  /* Garante que a imagem se comporte bem dentro do container flex */
+  object-fit: contain; 
+}
+
+/* --- ÍCONES DO MENU --- */
+.nav-icons {
+  display: flex;
+  flex-direction: column;
+  gap: 35px; /* Espaçamento entre os ícones do menu */
+}
+
+.menu-icon {
+  width: 24px; /* Tamanho fixo para não ficar gigante nem achatado */
+  height: 24px;
+  object-fit: contain;
+  opacity: 0.7;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.menu-icon:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+/* --- ÁREA DE CONTEÚDO --- */
+.main-content {
+  flex-grow: 1;
+  height: 100vh;
+  padding: 30px;
+}

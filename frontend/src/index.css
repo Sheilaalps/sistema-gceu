@@ -1,0 +1,29 @@
+/* index.css */
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-attachment: fixed;
+  transition: background 0.5s ease, color 0.5s ease; /* Transição suave */
+
+  /* --- FUNDO MODO ESCURO (O que você já tem) --- */
+  background: radial-gradient(
+    circle at bottom left, 
+    #64656B 5%, 
+    #3F4765 44%, 
+    #091D5B 65%
+  );
+  color: white;
+}
+
+/* --- FUNDO MODO CLARO (A mágica acontece aqui) --- */
+body.light-mode {
+  /* Trocamos o azul profundo por um cinza azulado bem clarinho e limpo */
+  background: radial-gradient(
+    circle at bottom left, 
+    #FFFFFF 5%,   /* Centro bem iluminado/branco */
+    #E0E4EB 44%,  /* Cinza azulado muito claro */
+    #C9D1D9 65%   /* Tom de "gelo" nas bordas */
+  );
+  color: #1A1D23; /* Texto escuro para dar leitura */
+}

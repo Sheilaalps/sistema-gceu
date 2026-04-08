@@ -1,0 +1,52 @@
+.banner-glass-wrapper {
+  padding: 30px 40px 0 20px; /* Aumentamos o padding da direita e tiramos o de baixo */
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.banner-glass-content {
+  width: 100%; 
+  max-width: none; /* REMOVA o 1200px para ele espalhar na tela toda */
+  height: 250px; /* Aumentei um pouco para dar mais presença */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  /* Efeito Vidro Ajustado para Fundo Escuro */
+  background: rgba(255, 255, 255, 0.15); /* Mais transparente para refletir o fundo */
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  
+  /* Borda sutil */
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 25px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  
+  /* Cor do texto para contraste no fundo escuro */
+  color: #ffffff; 
+  text-align: center;
+}
+
+.banner-glass-content h1 {
+  font-size: 3.5rem; /* Título maior já que o banner agora é largo */
+  margin: 0;
+  font-weight: 800;
+  letter-spacing: -2px;
+  color: #ffffff;
+}
+
+.banner-glass-content p {
+  font-size: 1.3rem;
+  margin-top: 10px;
+  color: rgba(255, 255, 255, 0.7); /* Slogan em branco suave */
+}
+
+/* Mantendo sua classe de título */
+.titulo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Poppins', sans-serif;
+}

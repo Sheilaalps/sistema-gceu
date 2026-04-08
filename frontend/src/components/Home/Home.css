@@ -1,0 +1,45 @@
+/* Container que envolve a lista de cards */
+.posts-list {
+  display: flex;
+  flex-direction: column;
+  
+  /* Ajuste esse valor: quanto maior, mais para baixo os cards ficam */
+  padding-top: 150px; 
+  
+  /* Mantém o alinhamento na direita que você já tem */
+  align-items: flex-end; 
+  gap: 15px; 
+}
+
+/* Mantendo o seu estilo dos cards abaixo */
+.post-temp-card {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 32, 96, 0.1);
+  border-left: 6px solid #002060;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  margin-bottom: 20px;
+  width: 100%;
+  max-width: 350px; /* Garante que fiquem com cara de barra lateral */
+  font-family: 'Poppins', sans-serif;
+}
+
+.post-temp-card h3 {
+  color: #002060;
+  margin-bottom: 5px;
+  font-size: 1.2rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+.post-temp-card p {
+  color: #555;
+  line-height: 1.5;
+  font-family: 'Poppins', sans-serif;
+}
+.info{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Poppins', sans-serif;
+}
