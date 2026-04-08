@@ -2,7 +2,6 @@ import React from 'react';
 import './Home.css';
 
 const Home = () => {
-  // Seus dados organizados por props, estilo Coema
   const avisos = [
     { 
       id: 1, 
@@ -23,16 +22,20 @@ const Home = () => {
 
   return (
     <div className="home-container">
+      {/* Área principal (onde fica seu banner e mapa) */}
       <main className="home-content">
-        <div className="info-section">
+        {/* Aqui entra o restante do seu conteúdo */}
+      </main>
+
+      {/* SIDEBAR GAVETA */}
+      <aside className="info-section">
+        <div className="info-inner-content">
           <div className="info-header">
-          <div className="info>">
             <h2>Informações</h2>
             <p>Novidades e Compromissos</p>
           </div>
-          </div>
 
-          <div className="info-list">
+          <div className="posts-list">
             {avisos.map((item) => (
               <div key={item.id} className="post-temp-card">
                 <h3>{item.titulo}</h3>
@@ -41,7 +44,7 @@ const Home = () => {
             ))}
           </div>
         </div>
-      </main>
+      </aside>
     </div>
   );
 };
