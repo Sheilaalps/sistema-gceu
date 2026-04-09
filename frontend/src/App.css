@@ -7,71 +7,40 @@
 
 .container {
   display: flex;
-  height: 100vh;
+  /* MUDANÇA AQUI: min-height em vez de height fixo para permitir crescer */
+  min-height: 100vh; 
   width: 100vw;
-  background-color: #1A1D2B; /* Cor de fundo da sua Home */
-  overflow: hidden;
+  background-color: #1A1D2B;
+  /* MUDANÇA AQUI: Remova o overflow: hidden para o scroll funcionar */
 }
 
 /* --- SIDEBAR --- */
 .sidebar {
   width: 90px;
   min-width: 90px;
+  /* A sidebar sim deve ficar fixa na altura da tela */
   height: 100vh;
+  position: sticky; /* Faz ela "grudar" enquanto você rola a página */
+  top: 0;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
   padding: 40px 0;
-  background-color: #2D334D; /* O azul escuro da sua barra */
-}
-
-.sidebar-top {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-}
-
-.logo-container {
-  margin-bottom: 60px; /* Distância entre a logo e os ícones */
-}
-
-.main-logo {
-  /* Aumentei consideravelmente o tamanho em pixels */
-  width: 75px;  /* Estava em 55px, aumentei para 75px */
-  
-  /* Mantém a proporção da imagem sem distorcer (essencial para PNG) */
-  height: auto; 
-  
-  /* Garante que a imagem se comporte bem dentro do container flex */
-  object-fit: contain; 
-}
-
-/* --- ÍCONES DO MENU --- */
-.nav-icons {
-  display: flex;
-  flex-direction: column;
-  gap: 35px; /* Espaçamento entre os ícones do menu */
-}
-
-.menu-icon {
-  width: 24px; /* Tamanho fixo para não ficar gigante nem achatado */
-  height: 24px;
-  object-fit: contain;
-  opacity: 0.7;
-  cursor: pointer;
-  transition: 0.3s ease;
-}
-
-.menu-icon:hover {
-  opacity: 1;
-  transform: scale(1.1);
+  background-color: #2D334D;
 }
 
 /* --- ÁREA DE CONTEÚDO --- */
 .main-content {
   flex-grow: 1;
-  height: 100vh;
+  /* MUDANÇA AQUI: Use min-height e display flex para empurrar o footer */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   padding: 30px;
+}
+
+/* Adicione isso para garantir que o Footer fique no final */
+.main-content > :nth-last-child(2) {
+  flex: 1; /* Isso faz a Home ocupar o espaço e empurrar o Footer pro fundo */
 }

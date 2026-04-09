@@ -1,44 +1,42 @@
-/* Container Geral */
+/* --- SEU CÓDIGO ORIGINAL (MANTIDO) --- */
+
 .home-container {
   width: 100%;
   min-height: 100vh;
   position: relative;
-  overflow-x: hidden; /* Evita scroll horizontal estranho */
+  overflow-x: hidden;
 }
 
-/* SIDEBAR (GAVETA) */
 .info-section {
   position: fixed;
-  right: -400px; /* Esconde a largura total da barra */
+  right: -400px;
   top: 0;
   width: 400px;
   height: 100vh;
-  background: rgba(255, 255, 255, 0.08); /* Efeito vidro sutil */
+  background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 1000;
   border-left: 1px solid rgba(255, 255, 255, 0.1);
-  overflow: visible; /* IMPORTANTE: permite que a aba INFO apareça */
+  overflow: visible;
 }
 
-/* Abre ao passar o mouse */
 .info-section:hover {
   right: 0;
   background: rgba(255, 255, 255, 0.12);
   box-shadow: -10px 0 30px rgba(0, 0, 0, 0.4);
 }
 
-/* ABA AZUL (O PUXADOR "INFO") */
 .info-section::before {
-  content: "I\A N\A F\A O"; /* Letras empilhadas */
+  content: "N\A E\A W\A S";
   white-space: pre;
   position: absolute;
-  left: -40px; /* Joga a aba para fora da barra (visível na tela) */
+  left: -40px;
   top: 50%;
   transform: translateY(-50%);
   width: 40px;
-  background: #002060; /* Azul da sua marca */
+  background: #002060;
   color: white;
   display: flex;
   align-items: center;
@@ -53,7 +51,6 @@
   box-shadow: -4px 0 10px rgba(0, 0, 0, 0.2);
 }
 
-/* CONTEÚDO INTERNO */
 .info-inner-content {
   width: 100%;
   height: 100%;
@@ -73,15 +70,13 @@
   margin-bottom: 30px;
 }
 
-/* LISTA DE CARDS */
 .posts-list {
   display: flex;
   flex-direction: column;
   gap: 15px;
-  overflow-y: auto; /* Scroll interno se houver muitos cards */
+  overflow-y: auto;
 }
 
-/* ESTILO DO CARD (BASEADO NO SEU) */
 .post-temp-card {
   background: rgba(255, 255, 255, 0.95);
   padding: 20px;
@@ -103,4 +98,30 @@
   margin: 0;
   font-size: 0.9rem;
   line-height: 1.4;
+}
+
+/* --- ADICIONE APENAS ESTE BLOCO ABAIXO NO FINAL DO ARQUIVO --- */
+
+@media (max-width: 1024px) {
+  .info-section {
+    width: 320px;   /* Menor para laptops e tablets */
+    right: -320px;  /* Ajusta o esconderijo para o novo tamanho */
+  }
+}
+
+@media (max-width: 768px) {
+  .info-section {
+    width: 85%;    /* No celular ela ocupa a lateral quase toda ao abrir */
+    right: -85%;
+  }
+  
+  .info-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .info-section::before {
+    width: 35px;    /* Puxador levemente menor no mobile */
+    left: -35px;
+    font-size: 0.7rem;
+  }
 }
