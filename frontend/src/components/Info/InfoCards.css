@@ -1,0 +1,34 @@
+.info-cards-section {
+  display: grid;
+  /* Isso aqui é o "pulo do gato" do artigo: 
+     o card nunca fica menor que 250px e se ajusta ao espaço disponível (1fr) */
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem; // Usando rem para acessibilidade
+  padding: 2rem;
+  width: 100%; // Garante que não transborde horizontalmente
+  box-sizing: border-box; // Importante: inclui o padding na largura total
+}
+
+.card-item {
+  max-width: 100%; // Regra de ouro do artigo
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .card-emoji {
+    font-size: clamp(2rem, 5vw, 3rem); // Fonte fluida: aumenta conforme a tela cresce
+    margin-bottom: 1rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .info-cards-section {
+    /* No celular, forçamos apenas 1 coluna para não espremer o texto do GCEU */
+    grid-template-columns: 1fr;
+    padding: 1rem;
+  }
+  
+  .gceu-banner {
+    padding: 2rem 1rem; // Diminui o respiro para ganhar espaço em telas de 390px
+  }
+}

@@ -1,0 +1,75 @@
+ '../../Styles/_variables'; // Ajuste o caminho para sua pasta de variáveis
+
+.info-section {
+  position: fixed;
+  right: -400px; 
+  top: 0;
+  width: 400px;
+  height: 100vh;
+  background: $glass-bg;
+  backdrop-filter: $glass-blur;
+  -webkit-backdrop-filter: $glass-blur;
+  border-left: 1px solid $glass-border;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1000;
+
+  &:hover {
+    right: 0;
+    box-shadow: -15px 0 40px rgba(0, 0, 0, 0.4);
+  }
+
+  /* Puxador NEWS vertical */
+  &::before {
+    content: "N\A E\A W\A S";
+    white-space: pre;
+    position: absolute;
+    left: -40px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    background: $gceu-blue;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 0;
+    border-radius: 12px 0 0 12px;
+    font-weight: bold;
+    font-size: 0.8rem;
+    cursor: pointer;
+  }
+
+  .info-inner-content {
+    padding: 40px 25px;
+    height: 100%;
+    overflow-y: auto;
+
+    h2 { color: $gceu-white; font-size: 1.8rem; margin-bottom: 5px; }
+    p { color: rgba(255, 255, 255, 0.6); margin-bottom: 30px; }
+  }
+
+  .post-temp-card {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 20px;
+    border-radius: 15px;
+    border-left: 6px solid $gceu-orange; // Usando outra variável da marca para destacar
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+
+    h3 { color: $navy-dark; font-size: 1.1rem; margin-bottom: 8px; }
+    p { color: #444; font-size: 0.9rem; line-height: 1.4; }
+  }
+}
+
+/* Responsividade Mobile (390px) */
+@media (max-width: 768px) {
+  .info-section {
+    width: 85%;
+    right: -85%;
+    
+    &::before {
+      width: 35px;
+      left: -35px;
+    }
+  }
+}
