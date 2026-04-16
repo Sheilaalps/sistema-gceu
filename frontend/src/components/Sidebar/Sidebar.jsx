@@ -1,19 +1,17 @@
-import React, { useState } from 'react'; // Adicionado useState
+import React, { useState } from 'react';
 import './Sidebar.css';
 
 const Sidebar = () => {
-  const [isOpen, setIsOpen] = useState(false); // Estado para o mobile
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <>
-      {/* Botão Hambúrguer: invisível no desktop, visível no mobile */}
       <button className="hamburger-btn" onClick={() => setIsOpen(!isOpen)}>
         <div className={`line ${isOpen ? 'open' : ''}`}></div>
         <div className={`line ${isOpen ? 'open' : ''}`}></div>
         <div className={`line ${isOpen ? 'open' : ''}`}></div>
       </button>
 
-      {/* A classe 'active' entra apenas quando clicado no mobile */}
       <aside className={`sidebar ${isOpen ? 'active' : ''}`}>
         <div className="sidebar-top">
           <div className="logo-container">
@@ -21,18 +19,29 @@ const Sidebar = () => {
           </div>
           
           <nav className="nav-icons">
-            <img src="/Vector-1.svg" alt="Home" className="menu-icon" />
-            <img src="/Vector.svg" alt="Atividades" className="menu-icon" />
-            <img src="/Vector-2.svg" alt="Mapa" className="menu-icon" />
+            {/* Itens do Menu com Texto para Expansão */}
+            <div className="menu-item">
+              <img src="/Vector-1.svg" alt="Home" className="menu-icon" />
+              <span className="menu-text">Início</span>
+            </div>
+
+            <div className="menu-item">
+              <img src="/Vector.svg" alt="Atividades" className="menu-icon" />
+              <span className="menu-text">Atividades</span>
+            </div>
+
+            <div className="menu-item">
+              <img src="/Vector-2.svg" alt="Mapa" className="menu-icon" />
+              <span className="menu-text">Mapa</span>
+            </div>
           </nav>
         </div>
         
         <div className="sidebar-bottom">
-          {/* Foto do usuário ou logout */}
+           {/* Espaço para foto ou botão de sair */}
         </div>
       </aside>
 
-      {/* Overlay para fechar ao clicar fora no mobile */}
       {isOpen && <div className="sidebar-overlay" onClick={() => setIsOpen(false)}></div>}
     </>
   );

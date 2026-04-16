@@ -3,23 +3,27 @@
   /* Isso aqui é o "pulo do gato" do artigo: 
      o card nunca fica menor que 250px e se ajusta ao espaço disponível (1fr) */
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem; // Usando rem para acessibilidade
+  gap: 1.5rem; 
   padding: 2rem;
-  width: 100%; // Garante que não transborde horizontalmente
-  box-sizing: border-box; // Importante: inclui o padding na largura total
+  width: 100%; 
+  box-sizing: border-box; 
 }
 
 .card-item {
-  max-width: 100%; // Regra de ouro do artigo
+  max-width: 100%; 
   display: flex;
   flex-direction: column;
   align-items: center;
-
+}
   .card-emoji {
-    font-size: clamp(2rem, 5vw, 3rem); // Fonte fluida: aumenta conforme a tela cresce
+    font-size: clamp(2rem, 5vw, 3rem); 
     margin-bottom: 1rem;
   }
-}
+  .card-title {
+    font-size: clamp(1.5rem, 3vw, 2rem); 
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+  }
 
 @media screen and (max-width: 480px) {
   .info-cards-section {
@@ -29,6 +33,6 @@
   }
   
   .gceu-banner {
-    padding: 2rem 1rem; // Diminui o respiro para ganhar espaço em telas de 390px
+    padding: 2rem 1rem; 
   }
 }

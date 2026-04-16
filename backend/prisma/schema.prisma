@@ -7,52 +7,34 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model cargos {
-  id      Bytes     @id @db.Binary(16)
-  nome    String    @unique(map: "UKgseglqgqp16hn9j3pqn06m8oy") @db.VarChar(255)
-  membros membros[]
-}
-
 model membros {
-  id                                      Bytes     @id @db.Binary(16)
-  data_nascimento                         String?   @db.VarChar(255)
-  nome                                    String?   @db.VarChar(255)
-  telefone                                String?   @db.VarChar(255)
-  anfitriao_id                            Bytes?    @db.Binary(16)
-  cpf                                     String?   @db.VarChar(255)
-  email                                   String?   @db.VarChar(255)
-  endereco                                String?   @db.VarChar(255)
-  id_admin                                Bytes?    @db.Binary(16)
-  cargo_id                                Bytes?    @db.Binary(16)
-  usuarios_membros_anfitriao_idTousuarios usuarios? @relation("membros_anfitriao_idTousuarios", fields: [anfitriao_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK5o3w2lmmdaoobao1ck9be9bln")
-  usuarios_membros_id_adminTousuarios     usuarios? @relation("membros_id_adminTousuarios", fields: [id_admin], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FKc9ghc8v8mqiq4r4ui4hfl3jx0")
-  cargos                                  cargos?   @relation(fields: [cargo_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FKrge9nds6n8ei1khhnsa51t87i")
-
-  @@index([anfitriao_id], map: "FK5o3w2lmmdaoobao1ck9be9bln")
-  @@index([id_admin], map: "FKc9ghc8v8mqiq4r4ui4hfl3jx0")
-  @@index([cargo_id], map: "FKrge9nds6n8ei1khhnsa51t87i")
+  id              Int             @id @default(autoincrement())
+  nome            String          @db.VarChar(100)
+  telefone        String?         @db.VarChar(20)
+  endereco        String?         @db.VarChar(255)
+  data_nascimento DateTime?       @db.Date
+  anfitriao_id    Int?
+  status          membros_status? @default(ativo)
+  ultima_presenca DateTime?       @db.Date
+  data_cadastro   DateTime?       @default(now()) @db.Timestamp(0)
 }
 
-model usuario {
-  id       Bytes   @id @db.Binary(16)
-  cpf      String? @db.VarChar(255)
-  email    String? @db.VarChar(255)
-  login    String? @db.VarChar(255)
-  nome     String? @db.VarChar(255)
-  senha    String? @db.VarChar(255)
-  telefone String? @db.VarChar(255)
+enum membros_status {
+  ativo
+  ausente
+  visitante
 }
 
 model usuarios {
-  id                                     Bytes     @id @db.Binary(16)
-  cpf                                    String?   @db.VarChar(255)
-  email                                  String?   @db.VarChar(255)
-  endereco                               String?   @db.VarChar(255)
-  link_maps                              String?   @db.VarChar(255)
-  login                                  String?   @db.VarChar(255)
-  nome                                   String?   @db.VarChar(255)
-  senha                                  String?   @db.VarChar(255)
-  telefone                               String?   @db.VarChar(255)
-  membros_membros_anfitriao_idTousuarios membros[] @relation("membros_anfitriao_idTousuarios")
-  membros_membros_id_adminTousuarios     membros[] @relation("membros_id_adminTousuarios")
+  id    Int            @id @default(autoincrement())
+  nome  String         @db.VarChar(100)
+  email String         @unique @db.VarChar(100)
+  senha String         @db.VarChar(255)
+  nivel usuarios_nivel @default(lider)
+}
+
+enum usuarios_nivel {
+  admin
+  lider
+  anfitriao
 }

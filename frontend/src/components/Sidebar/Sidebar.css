@@ -1,41 +1,117 @@
+/* Sidebar.css - Versão Centralização Absoluta */
+
 .sidebar {  
-  width: 90px;
-  min-width: 90px;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  padding: 40px 0;
-  background-color: #2D334D; /* O azul escuro da sua barra */
-}   
+    width: 90px;
+    min-width: 90px;
+    height: 100vh;
+    position: sticky; 
+    top: 0;
+    left: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center; 
+    padding: 40px 0;
+    z-index: 1000;
+    overflow-x: hidden;
+
+    /* --- O AJUSTE PARA FICAR IGUAL AO INFOS --- */
+    /* Usamos a mesma transparência branca que os cards da direita */
+    background: rgba(249, 249, 249, 0.128) !important; 
+    
+    /* O desfoque precisa ser o mesmo para dar continuidade visual */
+    backdrop-filter: blur(20px) saturate(180%); 
+    -webkit-backdrop-filter: blur(20px) saturate(180%); 
+    
+    /* Borda sutil para separar do fundo escuro */
+    border-right: 1px solid rgba(255, 255, 255, 0.556) !important;
+    
+    /* Sombra projetada */
+    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.3);
+
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Garanta que o fundo do seu 'App' ou 'Body' seja o azul escuro gradiente */
+/* para que o vidro tenha o que "refletir" */
+@media (min-width: 769px) {
+    .sidebar:hover {
+        width: 260px;
+        align-items: flex-start;
+        padding-left: 33px; /* Alinha com a logo ao abrir */
+    }
+}
+
 .sidebar-top {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centraliza a logo */
 }
-.logo-container {
-  margin-bottom: 60px; /* Distância entre a logo e os ícones */
-}
-.main-logo {
-  /* Aumentei consideravelmente o tamanho em pixels */
-  width: 75px;  /* Estava em 55px, aumentei para 75px */
-  
-  /* Mantém a proporção da imagem sem distorcer (essencial para PNG) */
-  height: auto; 
-  
-  /* Garante que a imagem se comporte bem dentro do container flex */
-  object-fit: contain; 
-}
-/* --- ÍCONES DO MENU --- */
+
 .nav-icons {
-  display: flex;
-  flex-direction: column;
-  gap: 35px; /* Espaçamento entre os ícones do menu */
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+    width: 100%;
+    margin-top: 60px;
+    align-items: center; /* Centraliza os itens no meio da barra */
 }
+
+.sidebar:hover .nav-icons {
+    align-items: flex-start;
+}
+
+/* --- O SEGREDO DA CENTRALIZAÇÃO --- */
+.menu-item {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Centraliza o ícone enquanto fechado */
+    width: 100%;
+    position: relative; /* Necessário para o texto absoluto */
+    cursor: pointer;
+    height: 40px;
+}
+
+.sidebar:hover .menu-item {
+    justify-content: flex-start;
+}
+
 .menu-icon {
-  width: 24px; /* Tamanho fixo para não ficar gigante nem achatado */
-  height: 24px;
-  object-fit: contain;
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    min-width: 24px;
+}
+
+.menu-text {
+    color: white;
+    font-size: 16px;
+    font-weight: 500;
+    white-space: nowrap;
+    
+    /* Quando fechado: tira do fluxo e esconde */
+    position: absolute;
+    left: 60px; /* Joga o texto pra longe do ícone */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease, left 0.3s ease;
+}
+
+/* Quando a sidebar expandir, o texto volta para o fluxo */
+.sidebar:hover .menu-text {
+    position: relative;
+    left: 20px; /* Distância ideal do ícone */
+    opacity: 1;
+    visibility: visible;
+}
+
+/* --- RESET MOBILE IGUAL AO ANTERIOR --- */
+.hamburger-btn { display: none !important; }
+@media (max-width: 768px) {
+    .sidebar { position: fixed; left: -100%; transition: left 0.3s ease; }
+    .sidebar.active { left: 0; width: 260px; align-items: flex-start; padding-left: 33px; }
+    .sidebar.active .menu-text { position: relative; left: 20px; opacity: 1; visibility: visible; }
+    .hamburger-btn { display: block !important; position: fixed; top: 20px; left: 20px; z-index: 1001; }
 }

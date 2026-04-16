@@ -1,13 +1,30 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
 
-/* RECURSO: Retorna a lista de usuários/membros do GCEU */
-router.get('/', function(req, res, next) {
-  // Aqui estamos enviando um JSON (o formato que APIs usam)
-  res.json([
-    { id: 1, nome: "Sheila", cargo: "Desenvolvedora" },
-    { id: 2, nome: "Membro Teste", cargo: "anfitriao" }
-  ]);
+// ROTA DE LOGIN
+router.post('/login', async (req, res) => {
+  const { email, senha } = req.body;
+
+  try {
+    const usuario = await prisma.usuarios.findUnique({
+      where: { email: email }
+    });
+
+    if (usuario && usuario.senha === senha) { // No futuro, usaremos criptografia aqui
+      // Enviamos os dados que o React vai usar para "limitar" o acesso
+      res.json({
+        id: usuario.id,
+        nome: usuario.nome,
+        nivel: usuario.nivel 
+      });
+    } else {
+      res.status(401).json({ message: "E-mail ou senha incorretos" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: "Erro no servidor" });
+  }
 });
 
 module.exports = router;

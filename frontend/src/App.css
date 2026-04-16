@@ -1,46 +1,103 @@
-/* --- RESET E LAYOUT --- */
+/* ============================================================
+   CONFIGURAÇÃO GLOBAL (RESET) 
+   ============================================================ */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.container {
-  display: flex;
-  /* MUDANÇA AQUI: min-height em vez de height fixo para permitir crescer */
-  min-height: 100vh; 
-  width: 100vw;
-  background-color: #1A1D2B;
-  /* MUDANÇA AQUI: Remova o overflow: hidden para o scroll funcionar */
+html, body {
+    width: 100%;
+    height: 100%;
+    background-color: #1A1D2B;
+    /* Removi o overflow-x hidden daqui para não bugar o scroll interno */
 }
 
-/* --- SIDEBAR --- */
+/* ============================================================
+   LAYOUT PRINCIPAL
+   ============================================================ */
+.app-layout {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    position: relative; /* Base para a sidebar fixa */
+}
+
+/* ============================================================
+   SIDEBAR (AGORA FLUTUANDO COM VIDRO)
+   ============================================================ */
 .sidebar {
-  width: 90px;
-  min-width: 90px;
-  /* A sidebar sim deve ficar fixa na altura da tela */
-  height: 100vh;
-  position: sticky; /* Faz ela "grudar" enquanto você rola a página */
-  top: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  padding: 40px 0;
-  background-color: #2D334D;
+    width: 90px;
+    min-width: 90px;
+    height: 100vh;
+    
+    /* MUDANÇA CHAVE: fixed para o conteúdo passar por baixo */
+    position: fixed; 
+    top: 0;
+    left: 0;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 40px 0;
+    z-index: 1000; /* Garante que fique no topo de tudo */
+
+    /* EFEITO DE VIDRO (Igual ao seu Infos) */
+    background: rgba(255, 255, 255, 0.08) !important; 
+    backdrop-filter: blur(15px) saturate(180%);
+    -webkit-backdrop-filter: blur(15px) saturate(180%);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    
+    /* Expansão (mantendo o que fizemos antes) */
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
 }
 
-/* --- ÁREA DE CONTEÚDO --- */
-.main-content {
-  flex-grow: 1;
-  /* MUDANÇA AQUI: Use min-height e display flex para empurrar o footer */
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  padding: 30px;
+.sidebar:hover {
+    width: 260px;
+    align-items: flex-start;
+    padding-left: 33px;
 }
 
-/* Adicione isso para garantir que o Footer fique no final */
-.main-content > :nth-last-child(2) {
-  flex: 1; /* Isso faz a Home ocupar o espaço e empurrar o Footer pro fundo */
+/* ============================================================
+   CONTAINER PRINCIPAL (BANNER + HOME)
+   ============================================================ */
+.main-container {
+    flex: 1;
+    height: 100vh;
+    
+    /* MUDANÇA CHAVE: margem para o conteúdo não começar debaixo da barra, 
+       mas rolar por baixo dela depois */
+    margin-left: 90px; 
+    
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background-color: #1A1D2B;
+    position: relative;
+    z-index: 1; /* Fica abaixo da sidebar (1000) */
+}
+
+/* Se você quiser que o banner especificamente ignore a margem e 
+   já comece encostado na esquerda (atrás da sidebar) */
+.banner-container {
+    width: 100%;
+    position: relative;
+    /* Opcional: padding para compensar a barra se quiser centralizar o conteúdo do banner */
+}
+
+/* 🚀 CORREÇÃO DO HAMBÚRGUER */
+@media (min-width: 769px) {
+    .hamburger-btn, .hamburger-menu {
+        display: none !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-container {
+        margin-left: 0; /* No mobile a barra some, então removemos a margem */
+    }
 }

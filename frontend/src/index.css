@@ -1,30 +1,26 @@
-/* index.css */
-
-body {
-  font-family: 'poppins', sans-serif;
+/* 1. RESET COMPLETO */
+* {
   margin: 0;
-  min-height: 100vh;
-  background-attachment: fixed;
-  transition: background 0.5s ease, color 0.5s ease; /* Transição suave */
-
-  /* --- FUNDO MODO ESCURO (O que você já tem) --- */
-  background: radial-gradient(
-    circle at bottom left, 
-    #64656B 5%, 
-    #3F4765 44%, 
-    #091D5B 65%
-  );
-  color: white;
+  padding: 0;
+  box-sizing: border-box;
+ 
 }
 
-/* --- FUNDO MODO CLARO (A mágica acontece aqui) --- */
-body.light-mode {
-  /* Trocamos o azul profundo por um cinza azulado bem clarinho e limpo */
-  background: radial-gradient(
-    circle at bottom left, 
-    #FFFFFF 5%,   /* Centro bem iluminado/branco */
-    #E0E4EB 44%,  /* Cinza azulado muito claro */
-    #C9D1D9 65%   /* Tom de "gelo" nas bordas */
-  );
-  color: #1A1D23; /* Texto escuro para dar leitura */
+/* 2. CONFIGURAÇÃO DO BODY */
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100vh; /* Use height fixo para o layout flex funcionar */
+  background-color: #1A1D2B; 
+  color: #FFFFFF;
+  overflow: hidden; /* O body não deve rolar, quem rola é o main-container */
+}
+
+/* 3. CONFIGURAÇÃO DO ROOT */
+#root {
+  display: block; /* Mude para block para deixar o .app-layout do App.js comandar */
+  width: 100%;
+  height: 100%;
 }

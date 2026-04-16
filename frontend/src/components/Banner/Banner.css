@@ -1,40 +1,54 @@
+/* --- CONTAINER PRINCIPAL DO BANNER --- */
+.banner-container {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+}
 
+/* --- WRAPPER QUE CONTROLA O RESPIRO LATERIAL --- */
 .banner-glass-wrapper {
-  padding: 30px 40px 0 20px; 
-  width: 100%;
-  display: flex;
-  justify-content: center;
+    /* Padding equilibrado para não vazar largura */
+    padding: 30px 20px 0 20px; 
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    box-sizing: border-box; /* Essencial para o padding não criar faixa branca */
 }
 
+/* --- O CARD DE VIDRO (CONTEÚDO) --- */
 .banner-glass-content {
-  width: 100%; 
-  max-width: none; 
-  height: 250px; 
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+    width: 100%; 
+    max-width: 1200px; /* Limite para não ficar largo demais em telas ultra-wide */
+    height: 250px; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
-  /* Efeito Vidro */
-  background: rgba(255, 255, 255, 0.15); 
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
-  
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 25px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-  
-  text-align: center;
+    /* Efeito Glassmorphism */
+    background: rgba(255, 255, 255, 0.1); 
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 25px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    
+    text-align: center;
+    box-sizing: border-box;
 }
 
+/* --- TÍTULO GCEU --- */
 .banner-glass-content h1 {
-  /* Reduzi de 5rem para 3.5rem - ainda é grande, mas não gigante */
-  font-size: 3.5rem; 
-  margin: 0;
-  font-weight: 900;
-  letter-spacing: -2px;
-  font-family: 'Poppins', sans-serif;
-  text-transform: uppercase;
+    font-size: 3.5rem; 
+    margin: 0;
+    font-weight: 900;
+    letter-spacing: -2px;
+    font-family: 'Poppins', sans-serif;
+    text-transform: uppercase;
 }
 
 /* --- CORES POR LETRA --- */
@@ -43,26 +57,28 @@
 .letter-e { color: #a44978; } /* Vinho */
 .letter-u { color: #509af1; } /* Azul */
 
+/* --- SUBTÍTULOS --- */
 .banner-glass-content p {
-  /* Reduzi levemente o texto de baixo também */
-  font-size: 1.1rem; 
-  margin-top: 5px;
-  color: rgba(255, 255, 255, 0.7);
-  font-family: 'Poppins', sans-serif;
-  font-weight: 300;
-}
-.banner-glass-content h3 {
-  font-size: 1.3rem;
-  margin-top: 5px;
-  color: rgba(255, 255, 255, 0.7);
-  font-family: 'Poppins', sans-serif;
-  font-weight: 300;
-  letter-spacing: 1px;
+    font-size: 1.1rem; 
+    margin-top: 5px;
+    color: rgba(255, 255, 255, 0.7);
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
 }
 
+.banner-glass-content h3 {
+    font-size: 1.3rem;
+    margin-top: 5px;
+    color: rgba(255, 255, 255, 0.7);
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
+    letter-spacing: 1px;
+}
+
+/* --- AUXILIAR DE ALINHAMENTO --- */
 .titulo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-family: 'Poppins', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Poppins', sans-serif;
 }
