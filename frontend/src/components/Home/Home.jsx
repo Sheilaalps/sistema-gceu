@@ -1,50 +1,33 @@
 import React from 'react';
+import Sidebar from '../Sidebar/Sidebar';
+import Banner from '../Banner/Banner';
+import InfoCards from '../Info/InfoCards';
+import InfoSection from '../Info/InfoSection';
+import Footer from '../Footer/Footer';
 import './Home.css';
 
 const Home = () => {
-  const avisos = [
-    { 
-      id: 1, 
-      titulo: "Célula Ágape", 
-      conteudo: "Nossa próxima reunião será quarta-feira às 20h!" 
-    },
-    { 
-      id: 2, 
-      titulo: "Aviso Geral", 
-      conteudo: "Não esqueça do nosso evento especial no próximo sábado." 
-    },
-    { 
-      id: 3, 
-      titulo: "GCEU News", 
-      conteudo: "O sistema de gestão está ficando pronto." 
-    }
-  ];
-
   return (
     <div className="home-container">
-      {/* Área principal (onde fica seu banner e mapa) */}
-      <main className="home-content">
-        {/* Aqui entra o restante do seu conteúdo */}
-      </main>
+      {/* Sidebar da Esquerda */}
+      <Sidebar />
 
-      {/* SIDEBAR GAVETA */}
-      <aside className="info-section">
-        <div className="info-inner-content">
-          <div className="info-header">
-            <h2>Informações</h2>
-            <p>Novidades e Compromissos</p>
-          </div>
+      <div className="main-wrapper">
+        <Banner />
+        
+        <div className="dashboard-content">
+          <section className="home-content">
+            <InfoCards />
+          </section>
 
-          <div className="posts-list">
-            {avisos.map((item) => (
-              <div key={item.id} className="post-temp-card">
-                <h3>{item.titulo}</h3>
-                <p>{item.conteudo}</p>
-              </div>
-            ))}
-          </div>
+          {/* ✅ Classe corrigida */}
+          <aside className="home-sidebar-section">
+            <InfoSection />
+          </aside>
         </div>
-      </aside>
+
+        <Footer />
+      </div>
     </div>
   );
 };

@@ -1,38 +1,68 @@
-.info-cards-section {
+.info-cards-container {
   display: grid;
-  /* Isso aqui é o "pulo do gato" do artigo: 
-     o card nunca fica menor que 250px e se ajusta ao espaço disponível (1fr) */
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem; 
-  padding: 2rem;
-  width: 100%; 
-  box-sizing: border-box; 
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  padding: 30px;
+
+  width: 100%;
+  max-width: 900px; /* 🔥 CORRIGIDO (antes 500) */
+
+  margin: 0 auto;
 }
 
-.card-item {
-  max-width: 100%; 
+/* RESPONSIVO */
+@media (max-width: 900px) {
+  .info-cards-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* CARD */
+.glass-card {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 24px;
+
+  padding: 12px;
+
   display: flex;
   flex-direction: column;
-  align-items: center;
-}
-  .card-emoji {
-    font-size: clamp(2rem, 5vw, 3rem); 
-    margin-bottom: 1rem;
-  }
-  .card-title {
-    font-size: clamp(1.5rem, 3vw, 2rem); 
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-  }
 
-@media screen and (max-width: 480px) {
-  .info-cards-section {
-    /* No celular, forçamos apenas 1 coluna para não espremer o texto do GCEU */
-    grid-template-columns: 1fr;
-    padding: 1rem;
-  }
-  
-  .gceu-banner {
-    padding: 2rem 1rem; 
-  }
+  transition: 0.3s ease;
+  cursor: pointer;
+}
+
+/* HOVER (mantido mais leve) */
+.glass-card:hover {
+  transform: translateY(-6px);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* TOPO DO CARD */
+.card-image-placeholder {
+  width: 100%;
+  height: 80px; /* 🔥 CORRIGIDO (antes 50) */
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+/* CONTEÚDO */
+.card-content {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.card-content h3 {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.card-content p {
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.85);
 }

@@ -1,0 +1,201 @@
+.membros-container {
+  padding: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.membros-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.membros-header h1 {
+  font-size: 28px;
+  color: #333;
+  margin: 0;
+}
+
+.btn-novo-membro {
+  padding: 10px 20px;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.3s;
+}
+
+.btn-novo-membro:hover {
+  background: #764ba2;
+}
+
+.membros-erro {
+  background-color: #fee;
+  color: #c33;
+  padding: 15px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  border-left: 4px solid #c33;
+}
+
+.membros-vazio {
+  text-align: center;
+  color: #999;
+  padding: 40px 20px;
+  font-size: 16px;
+}
+
+.membros-tabela {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.membros-tabela table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.membros-tabela thead {
+  background: #f5f5f5;
+}
+
+.membros-tabela th {
+  padding: 15px;
+  text-align: left;
+  font-weight: 600;
+  color: #333;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.membros-tabela td {
+  padding: 15px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.membros-tabela tbody tr:hover {
+  background: #fafafa;
+}
+
+.status {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.status-ativo {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.status-ausente {
+  background: #fff3e0;
+  color: #e65100;
+}
+
+.status-visitante {
+  background: #e3f2fd;
+  color: #1565c0;
+}
+
+.membros-acoes {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.btn-pequeno {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.btn-editar {
+  background: #667eea;
+  color: white;
+}
+
+.btn-editar:hover {
+  background: #764ba2;
+}
+
+.btn-presenca {
+  background: #2e7d32;
+  color: white;
+}
+
+.btn-presenca:hover {
+  background: #1b5e20;
+}
+
+.btn-deletar {
+  background: #c33;
+  color: white;
+}
+
+.btn-deletar:hover {
+  background: #a00;
+}
+
+.membros-paginacao {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+}
+
+.membros-paginacao button {
+  padding: 10px 20px;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.membros-paginacao button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.membros-paginacao button:hover:not(:disabled) {
+  background: #764ba2;
+}
+
+@media (max-width: 768px) {
+  .membros-container {
+    padding: 15px;
+  }
+
+  .membros-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .membros-tabela {
+    overflow-x: auto;
+  }
+
+  .membros-acoes {
+    flex-direction: column;
+  }
+
+  .btn-pequeno {
+    width: 100%;
+  }
+}

@@ -1,117 +1,180 @@
-/* Sidebar.css - Versão Centralização Absoluta */
+/* ============================================================= 
+   1. ESTRUTURA BASE DA SIDEBAR (DESKTOP) 
+   ============================================================= */
+.sidebar {
+  width: 90px;
+  min-width: 90px;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 0;
+  z-index: 2000;
+  overflow: hidden; /* Evita barras de rolagem durante a animação */
 
-.sidebar {  
-    width: 90px;
-    min-width: 90px;
-    height: 100vh;
-    position: sticky; 
-    top: 0;
-    left: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center; 
-    padding: 40px 0;
-    z-index: 1000;
-    overflow-x: hidden;
+  /* Glassmorphism Premium */
+  background: rgba(255, 255, 255, 0.03) !important;
+  backdrop-filter: blur(25px) saturate(180%);
+  -webkit-backdrop-filter: blur(25px) saturate(180%);
+  border-right: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 10px 0 30px rgba(0, 0, 0, 0.3);
 
-    /* --- O AJUSTE PARA FICAR IGUAL AO INFOS --- */
-    /* Usamos a mesma transparência branca que os cards da direita */
-    background: rgba(249, 249, 249, 0.128) !important; 
-    
-    /* O desfoque precisa ser o mesmo para dar continuidade visual */
-    backdrop-filter: blur(20px) saturate(180%); 
-    -webkit-backdrop-filter: blur(20px) saturate(180%); 
-    
-    /* Borda sutil para separar do fundo escuro */
-    border-right: 1px solid rgba(255, 255, 255, 0.556) !important;
-    
-    /* Sombra projetada */
-    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.3);
-
-    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Transição suave usando cubic-bezier para um ar mais moderno */
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1), left 0.4s ease;
 }
 
-/* Garanta que o fundo do seu 'App' ou 'Body' seja o azul escuro gradiente */
-/* para que o vidro tenha o que "refletir" */
 @media (min-width: 769px) {
-    .sidebar:hover {
-        width: 260px;
-        align-items: flex-start;
-        padding-left: 33px; /* Alinha com a logo ao abrir */
-    }
+  .sidebar:hover {
+    width: 260px;
+    align-items: flex-start;
+    padding-left: 20px;
+  }
 }
 
-.sidebar-top {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Centraliza a logo */
+/* ============================================================= 
+   2. ELEMENTOS INTERNOS (ÍCONES E TEXTOS) 
+   ============================================================= */
+.logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 50px;
+  transition: all 0.3s ease;
+}
+
+.sidebar:hover .logo-container {
+  justify-content: flex-start;
+  padding-left: 12px;
 }
 
 .nav-icons {
-    display: flex;
-    flex-direction: column;
-    gap: 35px;
-    width: 100%;
-    margin-top: 60px;
-    align-items: center; /* Centraliza os itens no meio da barra */
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  width: 100%;
 }
 
-.sidebar:hover .nav-icons {
-    align-items: flex-start;
-}
-
-/* --- O SEGREDO DA CENTRALIZAÇÃO --- */
 .menu-item {
-    display: flex;
-    align-items: center;
-    justify-content: center; /* Centraliza o ícone enquanto fechado */
-    width: 100%;
-    position: relative; /* Necessário para o texto absoluto */
-    cursor: pointer;
-    height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Centralizado quando fechada */
+  width: 50px; /* Círculo/Quadrado quando fechada */
+  height: 50px;
+  margin: 0 auto;
+  text-decoration: none;
+  color: white;
+  border-radius: 14px;
+  transition: all 0.3s ease;
+  position: relative;
 }
 
 .sidebar:hover .menu-item {
-    justify-content: flex-start;
+  justify-content: flex-start;
+  padding-left: 15px;
+  width: 90%; /* Expandido no hover */
+  margin-left: 10px;
+}
+
+.menu-item:hover, .menu-item.active {
+  background: rgba(255, 255, 255, 0.1);
+  color: #e69a44; /* Destaque na cor do logo */
+}
+
+/* Indicador lateral no item ativo */
+.menu-item.active::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 4px;
+  height: 20px;
+  background: #e69a44;
+  border-radius: 0 4px 4px 0;
 }
 
 .menu-icon {
-    width: 24px;
-    height: 24px;
-    object-fit: contain;
-    min-width: 24px;
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  object-fit: contain;
+  filter: brightness(0) invert(1); /* Ícones brancos */
 }
 
 .menu-text {
-    color: white;
-    font-size: 16px;
-    font-weight: 500;
-    white-space: nowrap;
-    
-    /* Quando fechado: tira do fluxo e esconde */
-    position: absolute;
-    left: 60px; /* Joga o texto pra longe do ícone */
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease, left 0.3s ease;
+  font-size: 15px;
+  font-weight: 500;
+  white-space: nowrap;
+  opacity: 0;
+  max-width: 0;
+  overflow: hidden;
+  transition: opacity 0.2s ease, max-width 0.3s ease, margin 0.3s ease;
 }
 
-/* Quando a sidebar expandir, o texto volta para o fluxo */
 .sidebar:hover .menu-text {
-    position: relative;
-    left: 20px; /* Distância ideal do ícone */
-    opacity: 1;
-    visibility: visible;
+  opacity: 1;
+  max-width: 200px;
+  margin-left: 15px;
 }
 
-/* --- RESET MOBILE IGUAL AO ANTERIOR --- */
-.hamburger-btn { display: none !important; }
+/* ============================================================= 
+   3. MOBILE E BOTÃO HAMBÚRGUER 
+   ============================================================= */
+.hamburger-btn {
+  display: none;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 10px;
+  border-radius: 12px;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  z-index: 2500;
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.line {
+  width: 22px;
+  height: 2px;
+  background-color: white;
+  transition: 0.3s;
+}
+
+/* Animação do X no Mobile */
+.line.open:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+.line.open:nth-child(2) { opacity: 0; }
+.line.open:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
 @media (max-width: 768px) {
-    .sidebar { position: fixed; left: -100%; transition: left 0.3s ease; }
-    .sidebar.active { left: 0; width: 260px; align-items: flex-start; padding-left: 33px; }
-    .sidebar.active .menu-text { position: relative; left: 20px; opacity: 1; visibility: visible; }
-    .hamburger-btn { display: block !important; position: fixed; top: 20px; left: 20px; z-index: 1001; }
+  .hamburger-btn { display: flex; }
+  
+  .sidebar {
+    left: -100%; /* Escondida */
+    width: 280px;
+    align-items: flex-start;
+    padding-left: 20px;
+  }
+  
+  .sidebar.active {
+    left: 0;
+  }
+  
+  .sidebar.active .menu-text {
+    opacity: 1;
+    max-width: 200px;
+    margin-left: 15px;
+  }
+
+  .sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    z-index: 1900;
+  }
 }

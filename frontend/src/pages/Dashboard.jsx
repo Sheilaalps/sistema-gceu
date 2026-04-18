@@ -1,74 +1,129 @@
-import React from 'react';
+import { useState, useEffect, useContext } from 'react';
+import { Link } from 'react-router-dom'; // Importação necessária para navegação interna
+import { AuthContext } from '../context/AuthContext';
+import { listarMembros } from '../Service/membroService';
+import './Dashboard.css';
 
-// Simulando que o usuário veio do login
-// No futuro, isso virá de um Context ou LocalStorage
-const Dashboard = ({ user = { nome: "Usuário", nivel: "admin" } }) => {
+const Dashboard = () => {
+  const { usuario, logout } = useContext(AuthContext);
+  const [stats, setStats] = useState({
+    totalMembros: 0,
+    ativos: 0,
+    ausentes: 0,
+    visitantes: 0,
+  });
+  const [carregando, setCarregando] = useState(true);
+
+  useEffect(() => {
+    carregarEstatisticas();
+  }, []);
+
+  const carregarEstatisticas = async () => {
+    try {
+      setCarregando(true);
+      const response = await listarMembros(1, 1000); 
+      const membros = response.data || [];
+
+      setStats({
+        totalMembros: response.count || membros.length,
+        ativos: membros.filter(m => m.status?.toLowerCase() === 'ativo').length,
+        ausentes: membros.filter(m => m.status?.toLowerCase() === 'ausente').length,
+        visitantes: membros.filter(m => m.status?.toLowerCase() === 'visitante').length,
+      });
+    } catch (erro) {
+      console.error('Erro ao carregar estatísticas', erro);
+    } finally {
+      setCarregando(false);
+    }
+  };
+
+  const getCargoLabel = (nivel) => {
+    const labels = {
+      admin: 'Administrador',
+      lider: 'Líder de GCEU',
+      anfitriao: 'Anfitrião',
+      samaritano: 'Samaritano',
+      secretario: 'Secretário'
+    };
+    return labels[nivel] || 'Usuário';
+  };
+
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', fontFamily: 'Arial' }}>
-      {/* Menu Lateral */}
-      <aside style={{ width: '250px', background: '#1a202c', color: 'white', padding: '20px' }}>
-        <h2>GCEU Manager</h2>
-        <hr />
-        <nav>
-          <p>Módulos:</p>
-          <button style={btnStyle}>🏠 Início</button>
-          <button style={btnStyle}>👥 Membros</button>
-          
-          {/* BOTÃO LIMITADO: Só Líder e Admin */}
-          {(user.nivel === 'lider' || user.nivel === 'admin') && (
-            <button style={{...btnStyle, color: '#f6ad55'}}>📝 Presença</button>
-          )}
+    <div className="dashboard-container">
+      <div className="dashboard-header">
+        <div className="dashboard-info">
+          <h1>Olá, {usuario?.nome || 'Usuário'}!</h1>
+          <p>
+            Categoria: <span className={`badge-nivel badge-${usuario?.nivel}`}>
+              {getCargoLabel(usuario?.nivel)}
+            </span>
+          </p>
+        </div>
+        <button onClick={logout} className="btn-logout">Sair do Sistema</button>
+      </div>
 
-          {/* BOTÃO LIMITADO: Só Admin */}
-          {user.nivel === 'admin' && (
-            <button style={{...btnStyle, color: '#fc8181'}}>⚙️ Painel do Pastor</button>
-          )}
-        </nav>
-      </aside>
-
-      {/* Conteúdo Central */}
-      <main style={{ flex: 1, padding: '40px', background: '#f7fafc' }}>
-        <header>
-          <h1>Olá, {user.nome}!</h1>
-          <p>Você está acessando como: <strong>{user.nivel.toUpperCase()}</strong></p>
-        </header>
-
-        <div style={{ display: 'flex', gap: '20px', marginTop: '20px' }}>
-          <div style={cardStyle}>
+      {carregando ? (
+        <div className="loading-container">
+          <div className="spinner"></div>
+          <p>Calculando dados do GCEU...</p>
+        </div>
+      ) : (
+        <div className="stats-grid">
+          {/* Card Total de Membros com Link */}
+          <Link to="/membros" className="stat-card">
             <h3>Total de Membros</h3>
-            <p style={{ fontSize: '24px' }}>0</p> {/* Aqui faremos o fetch depois */}
-          </div>
+            <p className="stat-numero">{stats.totalMembros}</p>
+          </Link>
           
-          {user.nivel === 'admin' && (
-            <div style={{ ...cardStyle, borderTop: '4px solid red' }}>
-              <h3>Líderes Ativos</h3>
-              <p style={{ fontSize: '24px' }}>0</p>
-            </div>
+          <div className="stat-card card-ativo">
+            <h3>Membros Ativos</h3>
+            <p className="stat-numero">{stats.ativos}</p>
+          </div>
+
+          {(usuario?.nivel === 'admin' || usuario?.nivel === 'secretario') && (
+            <>
+              <div className="stat-card card-ausente">
+                <h3>Ausentes</h3>
+                <p className="stat-numero">{stats.ausentes}</p>
+              </div>
+              <div className="stat-card card-visitante">
+                <h3>Visitantes</h3>
+                <p className="stat-numero">{stats.visitantes}</p>
+              </div>
+            </>
           )}
         </div>
-      </main>
+      )}
+
+      <div className="dashboard-menu">
+        <h2>Acesso Rápido</h2>
+        <div className="modulos-grid">
+          {/* Navegação por Link (sem reload) */}
+          <Link to="/membros" className="modulo-card">
+            <span className="modulo-icon">👥</span>
+            <h3>Membros</h3>
+            <p>Lista e busca</p>
+          </Link>
+
+          {(usuario?.nivel === 'lider' || usuario?.nivel === 'admin') && (
+            <Link to="/presenca" className="modulo-card">
+              <span className="modulo-icon">📝</span>
+              <h3>Presença</h3>
+              <p>Relatório semanal</p>
+            </Link>
+          )}
+
+          {usuario?.nivel === 'admin' && (
+            <Link to="/admin" className="modulo-card">
+              <span className="modulo-icon">⚙️</span>
+              <h3>Gestão</h3>
+              <p>Cadastrar Líderes</p>
+            </Link>
+          )}
+        </div>
+      </div>
     </div>
   );
-};
-
-const btnStyle = {
-  width: '100%',
-  padding: '10px',
-  margin: '5px 0',
-  background: 'transparent',
-  border: 'none',
-  color: 'white',
-  textAlign: 'left',
-  cursor: 'pointer',
-  fontSize: '16px'
-};
-
-const cardStyle = {
-  background: 'white',
-  padding: '20px',
-  borderRadius: '8px',
-  boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-  flex: 1
 };
 
 export default Dashboard;

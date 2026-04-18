@@ -1,26 +1,14 @@
-/* 1. RESET COMPLETO */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
- 
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-/* 2. CONFIGURAÇÃO DO BODY */
-body {
-  font-family: 'Poppins', sans-serif;
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100vh; /* Use height fixo para o layout flex funcionar */
-  background-color: #1A1D2B; 
-  color: #FFFFFF;
-  overflow: hidden; /* O body não deve rolar, quem rola é o main-container */
-}
-
-/* 3. CONFIGURAÇÃO DO ROOT */
-#root {
-  display: block; /* Mude para block para deixar o .app-layout do App.js comandar */
-  width: 100%;
-  height: 100%;
+body, html, #root {
+    width: 100%;
+    min-height: 100vh;
+    background-color: #1A1D2B !important; /* Cor única e oficial */
+    color: #FFFFFF;
+    font-family: 'Poppins', sans-serif;
+    overflow-x: hidden;
 }

@@ -1,0 +1,35 @@
+.layout-privado {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  background-color: #1a1d2b; /* Cor de fundo do seu sistema */
+}
+
+.layout-content {
+  flex: 1;
+  /* IMPORTANTE: margin-left deve ser a largura da sua sidebar fechada (90px) */
+  margin-left: 90px; 
+  
+  width: calc(100% - 90px);
+  min-height: 100vh;
+  padding: 40px;
+  box-sizing: border-box;
+  
+  /* Transição para acompanhar caso a sidebar mude de tamanho no hover */
+  transition: margin-left 0.4s ease, width 0.4s ease;
+}
+
+/* Se sua sidebar expande para 260px no hover, adicione isso: */
+.sidebar:hover ~ .layout-content {
+  margin-left: 260px;
+  width: calc(100% - 260px);
+}
+
+/* Responsividade para Celular */
+@media (max-width: 768px) {
+  .layout-content {
+    margin-left: 0;
+    width: 100%;
+    padding: 80px 20px 20px; /* Padding no topo para o botão do menu mobile */
+  }
+}

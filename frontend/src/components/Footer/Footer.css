@@ -1,25 +1,97 @@
-.gceu-footer {
+/* ============================================================
+   RESET
+   ============================================================ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  min-height: 100vh;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #1a1d2b;
+  color: #fff;
+
+  overflow-x: hidden; /* 🔥 evita bug lateral */
+}
+
+/* ============================================================
+   SIDEBAR (SE ESTIVER USANDO)
+   ============================================================ */
+.sidebar {
+  width: 90px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  z-index: 1000;
+}
+
+/* ============================================================
+   LAYOUT PRINCIPAL
+   ============================================================ */
+.home-container {
+  display: flex;
+  min-height: 100vh;
   width: 100%;
+}
+
+.main-wrapper {
+  margin-left: 90px; /* 🔥 COMPENSA SIDEBAR */
+  width: calc(100% - 90px);
+
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ============================================================
+   CONTEÚDO
+   ============================================================ */
+.home-content {
+  flex: 1; /* 🔥 empurra footer */
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 30px 20px;
+}
+
+/* ============================================================
+   FOOTER GCEU
+   ============================================================ */
+.gceu-footer {
+  /* Faz o fundo ocupar toda a largura disponível à direita da sidebar */
+  width: calc(100vw - 90px); 
+  
+  /* Se houver margens sobrando no pai, isso garante que ele estique */
+  margin-left: 0;
+  
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  padding: 50px 0 20px;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 50px 0 20px 0;
-  margin-top: 60px;
 }
 
+/* CONTAINER */
 .footer-container {
-  width: 100%;            /* Ocupa a largura toda */
-  max-width: 100%;        /* Remove o limite de 1100px */
-  margin: 0;              /* Tira o centralizado */
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr; 
+  grid-template-columns: 2fr 1fr 1fr;
   gap: 40px;
-  padding: 0 60px;        /* Dá um respiro nas pontas sem espremer */
+
+  padding: 0 20px;
 }
 
+/* COLUNAS */
 .footer-column h4 {
-  color: #509af1; 
+  color: #509af1;
   margin-bottom: 20px;
   font-size: 1.1rem;
   text-transform: uppercase;
@@ -30,19 +102,21 @@
   color: rgba(255, 255, 255, 0.7);
   text-decoration: none;
   margin-bottom: 12px;
-  transition: color 0.3s ease;
+  transition: 0.3s;
   font-size: 0.95rem;
 }
 
 .footer-column a:hover {
-  color: #e69a44; 
+  color: #e69a44;
 }
 
+/* LOGO */
 .footer-logo {
   font-weight: 800;
   margin-bottom: 10px;
   color: #fff;
 }
+
 .footer-logo span:nth-child(1) { color: #e69a44; }
 .footer-logo span:nth-child(2) { color: #a44978; }
 .footer-logo span:nth-child(3) { color: #509af1; }
@@ -54,6 +128,7 @@
   color: rgba(255, 255, 255, 0.4);
 }
 
+/* PARTE DE BAIXO */
 .footer-bottom {
   text-align: center;
   margin-top: 40px;
@@ -66,22 +141,19 @@
   font-size: 0.85rem;
 }
 
-/* --- ADICIONE DAQUI PARA BAIXO PARA RESPONSIVIDADE --- */
-
+/* ============================================================
+   RESPONSIVO
+   ============================================================ */
 @media (max-width: 768px) {
+  .main-wrapper {
+    margin-left: 0;
+    width: 100%;
+  }
+
   .footer-container {
-    /* No tablet/celular, vira uma coluna só */
     grid-template-columns: 1fr;
     text-align: center;
     gap: 30px;
-  }
-
-  .footer-column.brand {
-    order: -1; /* Garante que a marca GCEU sempre apareça primeiro no topo */
-  }
-
-  .footer-column h4 {
-    margin-bottom: 15px;
   }
 
   .footer-bottom {

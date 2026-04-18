@@ -1,127 +1,159 @@
-/* --- SEU CÓDIGO ORIGINAL (MANTIDO) --- */
+/* ============================================================ 
+   1. ESTRUTURA E RESET 
+   ============================================================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html, #root {
+    width: 100%;
+    min-height: 100vh;
+    background-color: #0c0c0e;
+    color: #FFFFFF;
+    font-family: 'Poppins', sans-serif;
+    overflow-x: hidden;
+}
 
 .home-container {
-  width: 100%;
-  min-height: 100vh;
-  position: relative;
-  overflow-x: hidden;
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
 }
 
-.info-section {
-  position: fixed;
-  right: -400px;
-  top: 0;
-  width: 400px;
-  height: 100vh;
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  z-index: 1000;
-  border-left: 1px solid rgba(255, 255, 255, 0.1);
-  overflow: visible;
+.main-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #1a1b23;
+    position: relative;
+    z-index: 10;
 }
 
-.info-section:hover {
-  right: 0;
-  background: rgba(255, 255, 255, 0.12);
-  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.4);
+/* ============================================================ 
+   2. ESTILO DOS CARDS (VISUAL DA IMAGEM 1)
+   ============================================================ */
+.info-card {
+    background-color: #FFFFFF !important;
+    color: #1a1b23 !important;
+    padding: 16px; /* um pouco menor */
+    border-radius: 12px;
+    border-left: 6px solid #003399;
+
+    width: 100%;
+    max-width: 100%; /* 🔥 REMOVE O LIMITE */
+
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    text-align: left;
 }
 
-.info-section::before {
-  content: "N\A E\A W\A S";
-  white-space: pre;
-  position: absolute;
-  left: -40px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 40px;
-  background: #002060;
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px 0;
-  border-radius: 12px 0 0 12px;
-  font-family: 'Poppins', sans-serif;
-  font-weight: bold;
-  font-size: 0.8rem;
-  line-height: 1.2;
-  cursor: pointer;
-  box-shadow: -4px 0 10px rgba(0, 0, 0, 0.2);
+.info-card h3 {
+    color: #003399 !important;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 8px;
 }
 
-.info-inner-content {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  padding: 40px 20px;
+.info-card p {
+    color: #444 !important;
+    font-size: 0.95rem;
+    line-height: 1.4;
 }
 
-.info-header h2 {
-  color: #fff;
-  font-size: 2rem;
-  margin-bottom: 5px;
+/* ============================================================ 
+   3. GAVETA NEWS E PUXADOR (VISUAL DA IMAGEM 2)
+   ============================================================ */
+aside.home-sidebar-section {
+    position: fixed !important;
+    right: 0 !important;
+    top: 0 !important;
+    height: 100vh !important;
+    width: 0; /* Começa fechada */
+    background: rgba(45, 47, 58, 0.98) !important;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 2000;
 }
 
-.info-header p {
-  color: rgba(255, 255, 255, 0.6);
-  margin-bottom: 30px;
+/* O PUXADOR AZUL "NEWS" */
+aside.home-sidebar-section::before {
+    content: "N\A E\A W\A S";
+    white-space: pre;
+    position: absolute;
+    left: -40px; /* Pendurado para fora */
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 140px;
+    background: #003399; /* Azul vibrante da imagem */
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.8rem;
+    line-height: 1.2;
+    border-radius: 15px 0 0 15px;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+    z-index: 2001;
 }
 
-.posts-list {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  overflow-y: auto;
+/* ABERTURA NO HOVER (DESKTOP) */
+aside.home-sidebar-section:hover {
+    width: 350px !important;
+
 }
 
-.post-temp-card {
-  background: rgba(255, 255, 255, 0.95);
-  padding: 20px;
-  border-radius: 12px;
-  border-left: 6px solid #002060;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  width: 100%;
-}
-
-.post-temp-card h3 {
-  color: #002060;
-  margin: 0 0 8px 0;
-  font-size: 1.1rem;
-  font-weight: 700;
-}
-
-.post-temp-card p {
-  color: #333;
-  margin: 0;
-  font-size: 0.9rem;
-  line-height: 1.4;
-}
-
-/* --- ADICIONE APENAS ESTE BLOCO ABAIXO NO FINAL DO ARQUIVO --- */
-
-@media (max-width: 1024px) {
-  .info-section {
-    width: 320px;   /* Menor para laptops e tablets */
-    right: -320px;  /* Ajusta o esconderijo para o novo tamanho */
-  }
-}
-
+/* ============================================================ 
+   4. RESPONSIVIDADE MOBILE (TRAVA O PUXADOR NO CANTO)
+   ============================================================ */
 @media (max-width: 768px) {
-  .info-section {
-    width: 85%;    /* No celular ela ocupa a lateral quase toda ao abrir */
-    right: -85%;
-  }
-  
-  .info-header h2 {
-    font-size: 1.5rem;
-  }
+    aside.home-sidebar-section {
+        width: 0 !important; /* Mantém fechado no mobile */
+        right: 0 !important;
+    }
 
-  .info-section::before {
-    width: 35px;    /* Puxador levemente menor no mobile */
-    left: -35px;
-    font-size: 0.7rem;
-  }
+    /* Garante que o puxador apareça exatamente como na sua foto */
+    aside.home-sidebar-section::before {
+        display: flex !important;
+        left: -40px !important; 
+        top: 65% !important; /* Altura da aba no mobile */
+    }
+
+    /* Se quiser que ela abra ao clicar (adicionando classe .active via JS) */
+    aside.home-sidebar-section.active {
+        width: 280px !important;
+    }
+
+    .main-wrapper {
+        margin-left: 0 !important;
+    }
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 10px; }
+/* ============================================================ 
+   5. CORREÇÃO DO FOOTER
+   ============================================================ */
+
+.home-content {
+    flex: 1; /* 🔥 ISSO RESOLVE */
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* FOOTER */
+.footer {
+    width: 100%;
+    padding: 20px;
+    text-align: center;
+    background: #111;
+    color: rgba(255,255,255,0.7);
 }

@@ -1,0 +1,141 @@
+/* =============================================================
+   ESTRUTURA BASE (SEU CÓDIGO ATUALIZADO)
+   ============================================================= */
+.admin-container {
+  padding: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.admin-container h1 {
+  font-size: 32px;
+  color: #f4f4f4;
+  margin: 0 0 10px 0;
+}
+
+.admin-container > p {
+  color: #b4b4b4;
+  margin: 0 0 30px 0;
+}
+
+.admin-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+/* =============================================================
+   CARDS ADMINISTRATIVOS (ESTILO GLASS)
+   ============================================================= */
+.admin-card {
+  background: white; /* Você pode mudar para rgba(255,255,255,0.05) para efeito vidro */
+  border-radius: 8px;
+  padding: 25px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s;
+}
+
+.admin-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+}
+
+.admin-card h3 {
+  font-size: 18px;
+  margin: 0 0 10px 0;
+  color: #333;
+}
+
+.admin-card p {
+  color: #666;
+  margin: 0 0 20px 0;
+  font-size: 14px;
+}
+
+.admin-card button {
+  padding: 10px 20px;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.3s;
+  width: 100%;
+}
+
+.admin-card button:hover {
+  background: #764ba2;
+}
+
+/* =============================================================
+   NOVA SEÇÃO: FORMULÁRIO DE CADASTRO
+   ============================================================= */
+.cadastro-usuarios-section {
+  margin-top: 40px;
+  padding: 30px;
+  background: white; /* Mantendo o padrão dos cards */
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  animation: slideDown 0.4s ease-out;
+}
+
+.cadastro-usuarios-section h2 {
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 22px;
+}
+
+.form-cadastro-admin {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Duas colunas para o formulário */
+  gap: 15px;
+}
+
+.form-cadastro-admin input, 
+.form-cadastro-admin select {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+}
+
+.form-cadastro-admin input:focus {
+  border-color: #667eea;
+}
+
+.form-cadastro-admin button {
+  grid-column: span 2; /* Botão ocupa a largura total */
+  padding: 12px;
+  background: #e69a44; /* Cor destaque do seu logo */
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.form-cadastro-admin button:hover {
+  background: #d48a3a;
+}
+
+/* ALERTAS */
+.alerta-sucesso { color: #28a745; grid-column: span 2; font-weight: 600; }
+.alerta-erro { color: #dc3545; grid-column: span 2; font-weight: 600; }
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Ajuste Mobile para o Formulário */
+@media (max-width: 600px) {
+  .form-cadastro-admin {
+    grid-template-columns: 1fr;
+  }
+  .form-cadastro-admin button {
+    grid-column: span 1;
+  }
+}
