@@ -1,13 +1,12 @@
 import { useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom'; // Para a setinha funcionar
+import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { registrarUsuario } from '../Service/usuarioService';
-import { FiArrowLeft } from 'react-icons/fi'; // Importando o ícone
 import './Admin.css';
 
 const Admin = () => {
   const { usuario } = useContext(AuthContext);
-  const navigate = useNavigate(); // Inicializando o hook de navegação
+  const navigate = useNavigate();
 
   const [exibirForm, setExibirForm] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -39,14 +38,26 @@ const Admin = () => {
 
   return (
     <div className="admin-container">
-      {/* CABEÇALHO COM BOTÃO VOLTAR */}
+      {/* CABEÇALHO COM BOTÃO VOLTAR (SVG DIRETO) */}
       <header className="admin-header-nav">
-        <button onClick={() => navigate('/dashboard')} className="btn-back-admin">
-          <FiArrowLeft size={22} />
+        <button onClick={() => navigate('/dashboard')} className="btn-back-admin" title="Voltar ao Dashboard">
+          <svg 
+            width="24" 
+            height="24" 
+            viewBox="0 0 24 24" 
+            fill="none" 
+            stroke="currentColor" 
+            strokeWidth="2.5" 
+            strokeLinecap="round" 
+            strokeLinejoin="round"
+          >
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
         </button>
         <div className="admin-header-text">
           <h1>Painel Administrativo</h1>
-          <p>Bem-vindo ao painel de administração, {usuario?.nome}!</p>
+          <p>Bem-vindo, {usuario?.nome || 'Usuário'}!</p>
         </div>
       </header>
 
@@ -82,11 +93,9 @@ const Admin = () => {
         )}
       </div>
 
-      {/* Seção de Cadastro (se ativa) */}
       {eAdmin && exibirForm && (
         <div className="cadastro-usuarios-section card-glass-effect">
           <h2>Cadastrar Novo Usuário</h2>
-          {/* ... resto do seu formulário ... */}
           <form onSubmit={handleCadastro} className="form-cadastro-admin">
             {mensagem.texto && (
               <div className={`alerta-${mensagem.tipo}`}>{mensagem.texto}</div>
@@ -99,7 +108,6 @@ const Admin = () => {
               value={form.nome} 
               onChange={e => setForm({...form, nome: e.target.value})} 
             />
-            {/* ... outros inputs ... */}
             <input 
               type="email" 
               placeholder="E-mail de acesso" 
