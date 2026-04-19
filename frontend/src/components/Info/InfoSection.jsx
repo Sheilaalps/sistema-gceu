@@ -3,9 +3,9 @@ import './InfoSection.css';
 
 const InfoSection = () => {
   const avisos = [
-    { id: 1, categoria: "Célula Ágape", mensagem: "Nossa próxima reunião será quarta-feira às 20h!" },
+    { id: 1, categoria: "GCEU Díscipulos", mensagem: "Nossa próxima reunião será terça-feira às 19h!" },
     { id: 2, categoria: "Aviso Geral", mensagem: "Não esqueça do nosso evento especial no próximo sábado." },
-    { id: 3, categoria: "GCEU News", mensagem: "O sistema de gestão está ficando pronto." }
+    { id: 3, categoria: "GCEU News", mensagem: "O sistema de gestão está em construção." }
   ];
 
   return (

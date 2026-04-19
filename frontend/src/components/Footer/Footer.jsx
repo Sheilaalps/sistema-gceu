@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './Footer.css';
 
 const Footer = () => {
@@ -16,17 +17,20 @@ const Footer = () => {
         {/* Coluna 2: Links Rápidos */}
         <div className="footer-column">
           <h4>Navegação</h4>
-          <a href="/">Home</a>
-          <a href="/membros">Casas de Paz</a>
-          <a href="/admin">Administrador</a>
+          <Link to="/">Home</Link>
+          
+          {/* Este agora abre o Aviso.jsx com o espiral redondo */}
+          <Link to="/casadepaz">Casas de Paz</Link>
+          
+          {/* Este vai direto para a sua tela de Login */}
+          <Link to="/login">Administrador</Link>
         </div>
 
-        {/* Coluna 3: Ajuda e FAQ (O Link do E-mail) */}
+        {/* Coluna 3: Ajuda e FAQ */}
         <div className="footer-column">
           <h4>Dúvidas?</h4>
-          {/* O link de e-mail com assunto pré-definido */}
           <a href="mailto:suporte.gceu@email.com?subject=Dúvida no Sistema GCEU" className="email-link">
-            📧 Central de FAQ
+            Central de FAQ
           </a>
           <p className="email-note">Mande um e-mail para nós!</p>
         </div>

@@ -1,3 +1,4 @@
+import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Home from "../components/Home/Home";
 import Login from "../pages/Login";
@@ -5,28 +6,22 @@ import Dashboard from "../pages/Dashboard";
 import Membros from "../pages/Membros";
 import Admin from "../pages/Admin";
 import LayoutPrivado from "../layouts/LayoutPrivado";
-import Aviso from '../pages/Aviso'; // Conferindo se o arquivo chama Aviso.jsx agora
+import Aviso from '../pages/Aviso'; 
 import { RotaPrivada, RotaAdmin } from "../context/RotasProtegidas";
 
 const AppRoutes = () => {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Rotas Públicas */}
+        {/* ROTAS PÚBLICAS (Acesso livre sem login) */}
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
+        
+        {/* Agora ambas apontam para o Aviso.jsx com o pre-loader */}
+        <Route path="/atualizacoes" element={<Aviso />} />
+        <Route path="/casadepaz" element={<Aviso />} />
 
-        {/* Mudei aqui: Tirei a RotaPrivada para você conseguir testar sem logar */}
-        <Route
-          path="/atualizacoes"
-          element={
-            <LayoutPrivado>
-              <Aviso />
-            </LayoutPrivado>
-          }
-        />
-
-        {/* Rotas do Sistema (Protegidas) */}
+        {/* ROTAS PROTEGIDAS (Só para usuários logados) */}
         <Route
           path="/dashboard"
           element={
@@ -49,7 +44,6 @@ const AppRoutes = () => {
           }
         />
 
-        {/* Rota para o Pastor/Admin gerenciar líderes */}
         <Route
           path="/admin"
           element={
@@ -61,8 +55,8 @@ const AppRoutes = () => {
           }
         />
 
-      {/* Se a rota não existir, ele tenta ir para o Dashboard em vez da Home pública */}
-<Route path="*" element={<Navigate to="/dashboard" replace />} />
+        {/* REDIRECIONAMENTO SEGURO */}
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
   );

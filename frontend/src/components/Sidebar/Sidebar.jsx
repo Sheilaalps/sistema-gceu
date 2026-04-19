@@ -27,21 +27,24 @@ const Sidebar = () => {
       <aside className={`sidebar ${isOpen ? 'active' : ''}`}>
         <div className="sidebar-top">
           <div className="logo-container">
-            <Link to="/" onClick={closeSidebar}>
+            {/* Logo agora leva ao Dashboard para evitar o redirecionamento da Home */}
+            <Link to="/dashboard" onClick={closeSidebar}>
               <img src="/gceulogo.svg" alt="Logo GCEU" className="main-logo" />
             </Link>
           </div>
 
           <nav className="nav-icons">
-            <Link to="/" className="menu-item" onClick={closeSidebar}>
+            {/* Corrigido para /dashboard */}
+            <Link to="/dashboard" className="menu-item" onClick={closeSidebar}>
               <img src="/Vector-1.svg" alt="Home" className="menu-icon" />
               <span className="menu-text">Início</span>
             </Link>
-            
-<Link to="/atualizacoes" className="menu-item" onClick={closeSidebar}>
-  <img src="/Vector.svg" alt="Atualizações" className="menu-icon" />
-  <span className="menu-text">Atualizações</span>
-</Link>
+
+            {/* Link de Atualizações conectado à rota que criamos */}
+            <Link to="/atualizacoes" className="menu-item" onClick={closeSidebar}>
+              <img src="/Vector.svg" alt="Atualizações" className="menu-icon" />
+              <span className="menu-text">Atualizações</span>
+            </Link>
 
             <Link to="/admin" className="menu-item" onClick={closeSidebar}>
               <img src="/Vector-2.svg" alt="Admin" className="menu-icon" />
