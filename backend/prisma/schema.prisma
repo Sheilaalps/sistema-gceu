@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -14,9 +14,12 @@ model membros {
   endereco        String?         @db.VarChar(255)
   data_nascimento DateTime?       @db.Date
   anfitriao_id    Int?
+  anfitriao       usuarios?       @relation(fields: [anfitriao_id], references: [id], onDelete: SetNull)
   status          membros_status? @default(ativo)
   ultima_presenca DateTime?       @db.Date
-  data_cadastro   DateTime?       @default(now()) @db.Timestamp(0)
+  data_cadastro   DateTime?       @default(now()) @db.Timestamp(3)
+  
+  @@index([anfitriao_id])
 }
 
 enum membros_status {
@@ -26,11 +29,12 @@ enum membros_status {
 }
 
 model usuarios {
-  id    Int            @id @default(autoincrement())
-  nome  String         @db.VarChar(100)
-  email String         @unique @db.VarChar(100)
-  senha String         @db.VarChar(255)
-  nivel usuarios_nivel @default(lider)
+  id       Int       @id @default(autoincrement())
+  nome     String    @db.VarChar(100)
+  email    String    @unique @db.VarChar(100)
+  senha    String    @db.VarChar(255)
+  nivel    usuarios_nivel @default(lider)
+  membros  membros[]
 }
 
 enum usuarios_nivel {

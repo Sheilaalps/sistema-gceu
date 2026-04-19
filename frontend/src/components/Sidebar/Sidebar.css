@@ -151,30 +151,33 @@
 .line.open:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
 @media (max-width: 768px) {
-  .hamburger-btn { display: flex; }
-  
-  .sidebar {
-    left: -100%; /* Escondida */
-    width: 280px;
-    align-items: flex-start;
-    padding-left: 20px;
-  }
-  
-  .sidebar.active {
-    left: 0;
-  }
-  
-  .sidebar.active .menu-text {
-    opacity: 1;
-    max-width: 200px;
-    margin-left: 15px;
-  }
+    /* ... seu código existente ... */
 
-  .sidebar-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(5px);
-    z-index: 1900;
-  }
+    .sidebar {
+        left: -100%; 
+        width: 280px;
+        align-items: flex-start; /* Alinha o conteúdo à esquerda */
+        padding-top: 80px; /* Espaço para não bater no botão X */
+    }
+
+    /* Força os itens a ocuparem a largura total e alinharem à esquerda */
+    .menu-item {
+        width: 90% !important;
+        justify-content: flex-start !important;
+        margin-left: 15px !important;
+        padding-left: 15px;
+    }
+
+    /* Força o texto a aparecer sempre que a sidebar estiver ativa no mobile */
+    .sidebar.active .menu-text {
+        opacity: 1 !important;
+        max-width: 200px !important;
+        margin-left: 15px !important;
+    }
+
+    /* Ajusta o container do logo no mobile */
+    .logo-container {
+        justify-content: flex-start !important;
+        padding-left: 20px;
+    }
 }

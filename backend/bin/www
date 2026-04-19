@@ -3,88 +3,133 @@
 /**
  * Module dependencies.
  */
-
-var app = require ('../app');
-var debug = require('debug')('backend:server');
-var http = require('http');
+require('dotenv').config(); // Garante o carregamento das variáveis no topo
+const { app, securityConfig, printSecurityReport } = require('../app');
+const debug = require('debug')('backend:server');
+const http = require('http');
+const WebSocketManager = require('../websocket/wsManager');
+const { setWSManager } = require('../websocket/wsGlobal');
 
 /**
  * Get port from environment and store in Express.
  */
-
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
 /**
  * Create HTTP server.
  */
-
 var server = http.createServer(app);
+
+/**
+ * ================================================================
+ * INICIALIZAR WEBSOCKET (Pacote P0)
+ * ================================================================
+ */
+let wsManager = null;
+
+if (securityConfig.websocket.enabled) {
+    try {
+        // AJUSTE: Usando a chave diretamente do process.env para evitar erros de validação
+        const jwtSecret = process.env.JWT_SECRET || securityConfig.jwt.secret;
+
+        wsManager = new WebSocketManager(
+            server,
+            jwtSecret,
+            {
+                heartbeatInterval: securityConfig.websocket.heartbeatInterval,
+                heartbeatTimeout: securityConfig.websocket.heartbeatTimeout,
+            }
+        );
+        
+        wsManager.initialize();
+        
+        // Registrar globalmente
+        setWSManager(wsManager);
+        console.log('✅ WebSocket inicializado com sucesso.');
+    } catch (error) {
+        console.error('❌ Erro ao inicializar WebSocket:', error.message);
+        if (securityConfig.isProduction) {
+            process.exit(1);
+        }
+    }
+}
 
 /**
  * Listen on provided port, on all network interfaces.
  */
-
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 
 /**
+ * Imprimir relatório de segurança
+ */
+server.on('listening', () => {
+    printSecurityReport();
+    console.log(`🚀 Servidor rodando em: http://localhost:${port}`);
+});
+
+/**
+ * GRACEFUL SHUTDOWN
+ */
+process.on('SIGTERM', () => {
+    console.log('\n[SHUTDOWN] SIGTERM recebido. Encerrando gracefully...');
+    if (wsManager) {
+        wsManager.closeAll();
+    }
+    server.close(() => {
+        console.log('[SHUTDOWN] ✓ Servidor encerrado');
+        process.exit(0);
+    });
+
+    setTimeout(() => {
+        console.error('[SHUTDOWN] ❌ Encerramento forçado após timeout');
+        process.exit(1);
+    }, 10000);
+});
+
+/**
  * Normalize a port into a number, string, or false.
  */
-
 function normalizePort(val) {
-  var port = parseInt(val, 10);
-
-  if (isNaN(port)) {
-    // named pipe
-    return val;
-  }
-
-  if (port >= 0) {
-    // port number
-    return port;
-  }
-
-  return false;
+    var port = parseInt(val, 10);
+    if (isNaN(port)) {
+        return val;
+    }
+    if (port >= 0) {
+        return port;
+    }
+    return false;
 }
 
 /**
  * Event listener for HTTP server "error" event.
  */
-
 function onError(error) {
-  if (error.syscall !== 'listen') {
-    throw error;
-  }
-
-  var bind = typeof port === 'string'
-    ? 'Pipe ' + port
-    : 'Port ' + port;
-
-  // handle specific listen errors with friendly messages
-  switch (error.code) {
-    case 'EACCES':
-      console.error(bind + ' requires elevated privileges');
-      process.exit(1);
-      break;
-    case 'EADDRINUSE':
-      console.error(bind + ' is already in use');
-      process.exit(1);
-      break;
-    default:
-      throw error;
-  }
+    if (error.syscall !== 'listen') {
+        throw error;
+    }
+    var bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
+    switch (error.code) {
+        case 'EACCES':
+            console.error(bind + ' requer privilégios elevados');
+            process.exit(1);
+            break;
+        case 'EADDRINUSE':
+            console.error(bind + ' já está em uso. Feche o outro processo e tente novamente.');
+            process.exit(1);
+            break;
+        default:
+            throw error;
+    }
 }
 
 /**
  * Event listener for HTTP server "listening" event.
  */
-
 function onListening() {
-  var addr = server.address();
-  var bind = typeof addr === 'string'
-    ? 'pipe ' + addr
-    : 'port ' + addr.port;
-  debug('Listening on ' + bind);
+    var addr = server.address();
+    var bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
+    debug('Listening on ' + bind);
 }
