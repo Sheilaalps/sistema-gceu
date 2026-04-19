@@ -150,34 +150,97 @@
 .line.open:nth-child(2) { opacity: 0; }
 .line.open:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
+/* ============================================================= 
+   MOBILE CORRIGIDO (SEM QUEBRAR DESKTOP)
+   ============================================================= */
 @media (max-width: 768px) {
-    /* ... seu código existente ... */
+  /* ... mantém as tuas regras da .sidebar ... */
 
-    .sidebar {
-        left: -100%; 
-        width: 280px;
-        align-items: flex-start; /* Alinha o conteúdo à esquerda */
-        padding-top: 80px; /* Espaço para não bater no botão X */
-    }
+  /* FORÇA O BLOCO A ABRIR JUNTO COM A SIDEBAR */
+  .sidebar.active .sidebar-top,
+  .sidebar.active .nav-icons,
+  .sidebar.active .logo-container {
+    width: 100% !important; /* Estica o bloco vermelho do teu print */
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important; /* Alinha tudo à esquerda */
+    padding-left: 10px;
+  }
 
-    /* Força os itens a ocuparem a largura total e alinharem à esquerda */
-    .menu-item {
-        width: 90% !important;
-        justify-content: flex-start !important;
-        margin-left: 15px !important;
-        padding-left: 15px;
-    }
+  /* LIBERA O ESPAÇO PARA O TEXTO NÃO SER ENGOLIDO */
+  .sidebar.active .menu-item {
+    width: 90% !important;
+    justify-content: flex-start !important;
+    margin-left: 5px !important;
+  }
 
-    /* Força o texto a aparecer sempre que a sidebar estiver ativa no mobile */
-    .sidebar.active .menu-text {
-        opacity: 1 !important;
-        max-width: 200px !important;
-        margin-left: 15px !important;
-    }
+  .sidebar.active .menu-text {
+    opacity: 1 !important;
+    max-width: 250px !important; /* Agora o texto tem espaço para aparecer */
+    display: block !important;
+  }
 
-    /* Ajusta o container do logo no mobile */
-    .logo-container {
-        justify-content: flex-start !important;
-        padding-left: 20px;
-    }
+  /* Botão hamburguer visível */
+ .hamburger-btn {
+    display: flex !important;
+    position: fixed !important;
+    top: 20px !important;
+    left: 20px !important;
+    z-index: 9999 !important; /* Valor altíssimo para ficar acima do vidro e do overlay */
+    width: 45px;
+    height: 45px;
+    background: rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Garante que as linhas do X sejam visíveis contra o fundo escuro */
+  .line {
+    background-color: #ffffff !important;
+    box-shadow: 0 0 5px rgba(0,0,0,0.2);
+  }
+
+  /* Sidebar escondida fora da tela */
+  .sidebar {
+    left: -100%;
+    width: 280px;
+    align-items: flex-start;
+    padding-left: 20px;
+  }
+
+  /* Sidebar ativa */
+  .sidebar.active {
+    left: 0;
+  }
+
+  /* Texto aparece quando abre */
+  .sidebar.active .menu-text {
+    opacity: 1;
+    max-width: 200px;
+    margin-left: 15px;
+  }
+
+  /* 🔥 CORREÇÃO DO CORTE */
+  .main-wrapper {
+    margin-left: 0 !important;
+    width: 100% !important;
+    padding: 80px 15px 20px 15px !important;
+  }
+
+  /* 🔥 OVERLAY CORRETO */
+  .sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(4px);
+    z-index: 1500;
+  }
+
+  /* 🔥 EVITA SCROLL LATERAL BUGADO */
+  body {
+    overflow-x: hidden;
+  }
 }

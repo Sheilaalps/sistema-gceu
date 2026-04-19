@@ -5,16 +5,25 @@ import './Sidebar.css';
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const closeSidebar = () => setIsOpen(false);
+  const toggleSidebar = (e) => {
+    e.stopPropagation();
+    setIsOpen(prev => !prev);
+  };
+
+  const closeSidebar = () => {
+    setIsOpen(false);
+  };
 
   return (
     <>
-      <button className="hamburger-btn" onClick={() => setIsOpen(!isOpen)}>
+      {/* Botão Hamburguer */}
+      <button className="hamburger-btn" onClick={toggleSidebar}>
         <div className={`line ${isOpen ? 'open' : ''}`}></div>
         <div className={`line ${isOpen ? 'open' : ''}`}></div>
         <div className={`line ${isOpen ? 'open' : ''}`}></div>
       </button>
 
+      {/* Sidebar */}
       <aside className={`sidebar ${isOpen ? 'active' : ''}`}>
         <div className="sidebar-top">
           <div className="logo-container">
@@ -22,34 +31,37 @@ const Sidebar = () => {
               <img src="/gceulogo.svg" alt="Logo GCEU" className="main-logo" />
             </Link>
           </div>
-          
+
           <nav className="nav-icons">
-            {/* Home - Início */}
             <Link to="/" className="menu-item" onClick={closeSidebar}>
               <img src="/Vector-1.svg" alt="Home" className="menu-icon" />
               <span className="menu-text">Início</span>
             </Link>
+            
+<Link to="/atualizacoes" className="menu-item" onClick={closeSidebar}>
+  <img src="/Vector.svg" alt="Atualizações" className="menu-icon" />
+  <span className="menu-text">Atualizações</span>
+</Link>
 
-            {/* Membros - Casas de Paz */}
-            <Link to="/membros" className="menu-item" onClick={closeSidebar}>
-              <img src="/Vector.svg" alt="Membros" className="menu-icon" />
-              <span className="menu-text">Atualizações</span>
-            </Link>
-
-            {/* Admin - Administrador */}
             <Link to="/admin" className="menu-item" onClick={closeSidebar}>
               <img src="/Vector-2.svg" alt="Admin" className="menu-icon" />
               <span className="menu-text">Casa de Paz</span>
             </Link>
           </nav>
         </div>
-        
+
         <div className="sidebar-bottom">
-           {/* Espaço para foto ou botão de sair */}
+          {/* espaço extra */}
         </div>
       </aside>
 
-      {isOpen && <div className="sidebar-overlay" onClick={closeSidebar}></div>}
+      {/* Overlay */}
+      {isOpen && (
+        <div
+          className="sidebar-overlay"
+          onClick={closeSidebar}
+        ></div>
+      )}
     </>
   );
 };

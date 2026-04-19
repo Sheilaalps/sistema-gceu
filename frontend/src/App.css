@@ -5,30 +5,32 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-body, html, #root {
+html, body, #root {
   width: 100%;
   min-height: 100vh;
-  background-color: #1a1d2b !important;
+  background-color: #1a1d2b;
   color: #ffffff;
   font-family: "Poppins", sans-serif;
   overflow-x: hidden;
 }
 
 /* ============================================================= 
-   2. ESTRUTURA DO LAYOUT
+   2. LAYOUT PRINCIPAL
    ============================================================= */
 .home-container {
   display: flex;
   width: 100%;
   min-height: 100vh;
-  position: relative;
   background-color: #1a1d2b;
-
-  justify-content: center; /* ✅ CENTRALIZA NO DESKTOP */
 }
 
+/* ============================================================= 
+   3. SIDEBAR
+   ============================================================= */
 .sidebar {
   width: 90px;
   height: 100vh;
@@ -36,112 +38,101 @@ body, html, #root {
   top: 0;
   left: 0;
   z-index: 3000;
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
-  border-right: 1px solid rgba(255, 255, 255, 0.1);
-  transition: all 0.4s ease;
-}
-.main-wrapper {
-  flex: 1;
-  /* Remova o margin-left: auto e use apenas o valor da sidebar */
-  margin-left: 90px; 
-  
-  /* Garante que o container ocupe o espaço restante sem criar scroll */
-  width: calc(100% - 90px); 
-  
-  /* No desktop, se quiser centralizar em telas ultra-wide, use margin-right auto */
-  margin-right: auto; 
-  
-  max-width: 1400px; 
-  min-height: 100vh;
-  padding: 0px 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center; 
-  background: transparent !important;
-  transition: all 0.4s ease;
-  position: relative;
-}
 
-/* Conteúdo central */
-.dashboard-content, .home-content {
-  width: 100%;
-  max-width: 1200px; /* 🔧 leve ajuste */
-  margin: 0 auto;
+  background: rgba(20, 20, 30, 0.65);
+
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 8px 0 25px rgba(0, 0, 0, 0.35);
+
+  transition: all 0.3s ease;
 }
 
 /* ============================================================= 
-   3. GRIDS E CARDS
+   4. CONTEÚDO PRINCIPAL (CORRIGIDO)
    ============================================================= */
-.info-cards-container, .cards-grid {
-  display: grid;
+.main-wrapper {
+  flex: 1;
+  margin-left: 90px;
+  width: calc(100% - 90px);
 
-  /* ✅ AGORA OS CARDS NÃO ESTICAM DEMAIS */
-  grid-template-columns: repeat(auto-fit, minmax(280px, 350px));
-
-  gap: 25px;
-  width: 100%;
-  padding: 20px 0;
-
-  justify-content: center; /* ✅ CENTRALIZA OS CARDS */
-}
-
-/* Cards */
-.glass-card, .info-card {
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 24px;
-  padding: 25px;
-
-  height: auto;
+  min-height: 100vh;
+  padding: 20px;
 
   display: flex;
   flex-direction: column;
-  transition: transform 0.3s ease;
+  align-items: center;
+
+  background: transparent;
+}
+
+/* 🔥 LIMITA O CONTEÚDO SEM QUEBRAR O LAYOUT */
+.main-wrapper > * {
+  width: 100%;
+  max-width: 1400px;
+}
+
+/* ============================================================= 
+   5. CARDS
+   ============================================================= */
+.glass-card,
+.info-card {
+  width: 100%;
+  max-width: 600px;
+
+  background: rgba(255, 255, 255, 0.06);
+
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+
+  padding: 20px;
+
+  transition: all 0.3s ease;
+
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .glass-card:hover {
   transform: translateY(-5px);
-  background: rgba(255, 255, 255, 0.12);
-}
-
-.card-content h3 {
-  margin: 0 0 12px 0;
-  font-size: 1.2rem;
-  font-weight: 700;
-}
-
-.card-content p {
-  font-size: 0.95rem;
-  line-height: 1.6;
-  color: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.1);
 }
 
 /* ============================================================= 
-   4. RESPONSIVIDADE
+   6. ÍCONES
    ============================================================= */
+.menu-icon,
+.card-icon,
+img {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
 
-@media (max-width: 1024px) {
-  .sidebar { width: 70px; }
-
-  .main-wrapper { 
-    margin-left: 70px; 
-    width: calc(100% - 70px);
-  }
+  transform: translateZ(1px);
+  will-change: transform;
 }
 
+/* ============================================================= 
+   7. RESPONSIVO
+   ============================================================= */
 @media (max-width: 768px) {
-  .sidebar { left: -280px; }
+
+  .sidebar {
+    left: -260px;
+    width: 260px;
+  }
+
+  .sidebar.active {
+    left: 0;
+  }
 
   .main-wrapper {
-    margin-left: 0 !important;
-    width: 100% !important;
-    padding: 80px 15px 20px 15px !important;
-  }
-  
-  .info-cards-container, .cards-grid {
-    grid-template-columns: 1fr !important; 
+    margin-left: 0;
+    width: 100%;
+    padding: 80px 15px 20px;
   }
 }
