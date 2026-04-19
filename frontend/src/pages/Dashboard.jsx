@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from 'react';
-import { Link } from 'react-router-dom'; // Importação necessária para navegação interna
+import { Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { listarMembros } from '../Service/membroService';
 import './Dashboard.css';
@@ -48,6 +48,9 @@ const Dashboard = () => {
     return labels[nivel] || 'Usuário';
   };
 
+  // Lógica para verificar quem pode gerenciar avisos
+  const podeGerenciarAvisos = ['admin', 'secretario', 'lider', 'anfitriao'].includes(usuario?.nivel);
+
   return (
     <div className="dashboard-container">
       <div className="dashboard-header">
@@ -69,7 +72,6 @@ const Dashboard = () => {
         </div>
       ) : (
         <div className="stats-grid">
-          {/* Card Total de Membros com Link */}
           <Link to="/membros" className="stat-card">
             <h3>Total de Membros</h3>
             <p className="stat-numero">{stats.totalMembros}</p>
@@ -98,7 +100,6 @@ const Dashboard = () => {
       <div className="dashboard-menu">
         <h2>Acesso Rápido</h2>
         <div className="modulos-grid">
-          {/* Navegação por Link (sem reload) */}
           <Link to="/membros" className="modulo-card">
             <span className="modulo-icon">👥</span>
             <h3>Membros</h3>
@@ -110,6 +111,15 @@ const Dashboard = () => {
               <span className="modulo-icon">📝</span>
               <h3>Presença</h3>
               <p>Relatório semanal</p>
+            </Link>
+          )}
+
+          {/* NOVO CARD: Gerenciar Avisos (Disponível para os cargos que você pediu) */}
+          {podeGerenciarAvisos && (
+            <Link to="/avisos" className="modulo-card card-avisos-edit">
+              <span className="modulo-icon">📢</span>
+              <h3>Comunicados</h3>
+              <p>Editar avisos da Home</p>
             </Link>
           )}
 

@@ -1,20 +1,21 @@
 import { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom'; // Para a setinha funcionar
 import { AuthContext } from '../context/AuthContext';
 import { registrarUsuario } from '../Service/usuarioService';
+import { FiArrowLeft } from 'react-icons/fi'; // Importando o ícone
 import './Admin.css';
 
 const Admin = () => {
   const { usuario } = useContext(AuthContext);
+  const navigate = useNavigate(); // Inicializando o hook de navegação
 
   const [exibirForm, setExibirForm] = useState(false);
   const [loading, setLoading] = useState(false);
   const [mensagem, setMensagem] = useState({ tipo: '', texto: '' });
-  const [form, setForm] = useState({ nome: '', email: '', senha: '', nivel: '' }); // Inicial vazio
+  const [form, setForm] = useState({ nome: '', email: '', senha: '', nivel: '' });
 
   const handleCadastro = async (e) => {
     e.preventDefault();
-    
-    // Pequena validação de segurança
     if (!form.nivel) {
       setMensagem({ tipo: 'erro', texto: 'Por favor, selecione um nível.' });
       return;
@@ -26,8 +27,6 @@ const Admin = () => {
     try {
       await registrarUsuario(form.nome, form.email, form.senha, form.nivel);
       setMensagem({ tipo: 'sucesso', texto: 'Usuário cadastrado com sucesso!' });
-      
-      // ✅ CORRIGIDO: Limpa o form e volta para o "Selecione..."
       setForm({ nome: '', email: '', senha: '', nivel: '' }); 
     } catch (err) {
       setMensagem({ tipo: 'erro', texto: err.erro || 'Falha ao cadastrar' });
@@ -40,15 +39,23 @@ const Admin = () => {
 
   return (
     <div className="admin-container">
-      <h1>Painel Administrativo</h1>
-      <p>Bem-vindo ao painel de administração, {usuario?.nome}!</p>
+      {/* CABEÇALHO COM BOTÃO VOLTAR */}
+      <header className="admin-header-nav">
+        <button onClick={() => navigate('/dashboard')} className="btn-back-admin">
+          <FiArrowLeft size={22} />
+        </button>
+        <div className="admin-header-text">
+          <h1>Painel Administrativo</h1>
+          <p>Bem-vindo ao painel de administração, {usuario?.nome}!</p>
+        </div>
+      </header>
 
       <div className="admin-grid">
         {eAdmin && (
           <div className="admin-card">
             <h3>Usuários</h3>
             <p>Gerencie usuários do sistema</p>
-            <button onClick={() => setExibirForm(!exibirForm)}>
+            <button onClick={() => setExibirForm(!exibirForm)} className="btn-admin-action">
               {exibirForm ? 'Fechar Cadastro' : 'Gerenciar'}
             </button>
           </div>
@@ -57,27 +64,29 @@ const Admin = () => {
         <div className="admin-card">
           <h3>Configurações</h3>
           <p>Configure o sistema</p>
-          <button>Configurar</button>
+          <button className="btn-admin-action">Configurar</button>
         </div>
 
         <div className="admin-card">
           <h3>Relatórios</h3>
           <p>Visualize relatórios</p>
-          <button>Ver Relatórios</button>
+          <button className="btn-admin-action">Ver Relatórios</button>
         </div>
 
         {eAdmin && (
           <div className="admin-card">
             <h3>Backup</h3>
             <p>Faça backup dos dados</p>
-            <button>Fazer Backup</button>
+            <button className="btn-admin-action">Fazer Backup</button>
           </div>
         )}
       </div>
 
+      {/* Seção de Cadastro (se ativa) */}
       {eAdmin && exibirForm && (
-        <div className="cadastro-usuarios-section">
+        <div className="cadastro-usuarios-section card-glass-effect">
           <h2>Cadastrar Novo Usuário</h2>
+          {/* ... resto do seu formulário ... */}
           <form onSubmit={handleCadastro} className="form-cadastro-admin">
             {mensagem.texto && (
               <div className={`alerta-${mensagem.tipo}`}>{mensagem.texto}</div>
@@ -90,6 +99,7 @@ const Admin = () => {
               value={form.nome} 
               onChange={e => setForm({...form, nome: e.target.value})} 
             />
+            {/* ... outros inputs ... */}
             <input 
               type="email" 
               placeholder="E-mail de acesso" 
@@ -110,7 +120,6 @@ const Admin = () => {
               value={form.nivel} 
               onChange={e => setForm({...form, nivel: e.target.value})} 
             >
-              {/* ✅ CORRIGIDO: Adicionado o "Selecione..." */}
               <option value="" disabled>Selecione o nível de acesso...</option>
               <option value="admin">Administrador</option>
               <option value="lider">Líder de GCEU</option>
@@ -119,15 +128,11 @@ const Admin = () => {
               <option value="secretario">Secretário</option>
             </select>
 
-            <button type="submit" disabled={loading || !form.nivel}>
+            <button type="submit" disabled={loading || !form.nivel} className="btn-finalizar">
               {loading ? 'Cadastrando...' : 'Finalizar Cadastro'}
             </button>
           </form>
         </div>
-      )}
-
-      {!eAdmin && exibirForm && (
-        <p className="alerta-erro">Você não tem permissão para cadastrar usuários.</p>
       )}
     </div>
   );

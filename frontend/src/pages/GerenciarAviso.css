@@ -1,0 +1,49 @@
+.admin-header-nav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.btn-back-admin {
+  background: white;
+  border: none;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #647df0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-back-admin:hover {
+  transform: translateX(-4px);
+  background: #647df0;
+  color: white;
+}
+
+.admin-header-text h1 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.admin-header-text p {
+  margin: 0;
+  color: #8a8d9b;
+}
+
+/* Ajuste nos botões dos cards */
+.btn-admin-action {
+  background: #647df0;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 10px;
+}

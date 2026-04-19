@@ -7,21 +7,21 @@ import Membros from "../pages/Membros";
 import Admin from "../pages/Admin";
 import LayoutPrivado from "../layouts/LayoutPrivado";
 import Aviso from '../pages/Aviso'; 
+import GerenciarAviso from '../pages/GerenciarAviso'; // <-- Importando a nova página
 import { RotaPrivada, RotaAdmin } from "../context/RotasProtegidas";
 
 const AppRoutes = () => {
   return (
     <BrowserRouter>
       <Routes>
-        {/* ROTAS PÚBLICAS (Acesso livre sem login) */}
+        {/* ROTAS PÚBLICAS */}
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         
-        {/* Agora ambas apontam para o Aviso.jsx com o pre-loader */}
         <Route path="/atualizacoes" element={<Aviso />} />
         <Route path="/casadepaz" element={<Aviso />} />
 
-        {/* ROTAS PROTEGIDAS (Só para usuários logados) */}
+        {/* ROTAS PROTEGIDAS */}
         <Route
           path="/dashboard"
           element={
@@ -39,6 +39,18 @@ const AppRoutes = () => {
             <RotaPrivada>
               <LayoutPrivado>
                 <Membros />
+              </LayoutPrivado>
+            </RotaPrivada>
+          }
+        />
+
+        {/* NOVA ROTA: Gerenciar Avisos */}
+        <Route
+          path="/avisos"
+          element={
+            <RotaPrivada>
+              <LayoutPrivado>
+                <GerenciarAviso />
               </LayoutPrivado>
             </RotaPrivada>
           }
