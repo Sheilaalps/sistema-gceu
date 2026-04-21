@@ -1,0 +1,153 @@
+.relatorio-header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.titulo-relatorio {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.acoes-relatorio {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* Grade Responsiva */
+.admin-grid-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 15px;
+  width: 100%;
+}
+
+.stat-box-mini {
+  background: var(--stats-bg, #f8fafc);
+  border: 1px solid var(--border-color, #e2e8f0);
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+  transition: transform 0.2s;
+}
+
+.stat-box-mini .label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-main);
+  opacity: 0.6;
+  margin-bottom: 5px;
+}
+
+.stat-box-mini .value {
+  font-size: 26px;
+  font-weight: 800;
+  margin: 0;
+  color: var(--text-main);
+}
+
+.main-stat { border-left: 4px solid #667eea; }
+.main-stat .value { color: #667eea; }
+
+/* Calendário e Filtros */
+.input-data-wrapper {
+  display: flex;
+  align-items: center;
+  background: var(--stats-bg);
+  padding: 0 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  height: 38px;
+}
+
+.input-data-wrapper input {
+  background: transparent;
+  border: none;
+  color: var(--text-main);
+  outline: none;
+  cursor: pointer;
+  margin-left: 5px;
+}
+
+/* Responsividade Celular */
+@media (max-width: 600px) {
+  .relatorio-header-container { flex-direction: column; align-items: flex-start; }
+  .acoes-relatorio { width: 100%; justify-content: space-between; }
+  .admin-grid-stats { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* Dark Mode Vars */
+body.dark-mode {
+  --stats-bg: #1e293b;
+  --text-main: #f8fafc;
+  --border-color: #334155;
+}
+/* Container dos botões de filtro */
+.filtros-periodo {
+  display: flex;
+  background: var(--stats-bg, #f1f5f9);
+  padding: 4px;
+  border-radius: 8px;
+  gap: 2px;
+  border: 1px solid var(--border-color, #e2e8f0);
+}
+
+/* Estilo de cada botão de filtro */
+.btn-filtro-item {
+  background: transparent;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-main, #64748b);
+  transition: all 0.2s ease;
+  outline: none; /* Remove a borda preta ao clicar */
+}
+
+/* Botão Ativo (Hoje, Semana ou Ano) */
+.btn-filtro-item.active {
+  background: #667eea;
+  color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Botão de Download PDF */
+.btn-download-pdf {
+  background: var(--stats-bg, #f1f5f9);
+  border: 1px solid var(--border-color, #e2e8f0);
+  padding: 8px;
+  border-radius: 8px;
+  color: #667eea;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.2s;
+  margin-left: 8px;
+}
+
+.btn-download-pdf:hover {
+  background: #667eea;
+  color: white;
+}
+
+/* MODO ESCURO */
+body.dark-mode .filtros-periodo,
+body.dark-mode .btn-download-pdf {
+  background: #2d2d3a;
+  border-color: #3f3f4d;
+}
+
+body.dark-mode .btn-filtro-item {
+  color: #a0aec0;
+}
