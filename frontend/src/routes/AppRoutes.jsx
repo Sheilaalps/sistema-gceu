@@ -5,9 +5,12 @@ import Login from "../pages/Login";
 import Dashboard from "../pages/Dashboard";
 import Membros from "../pages/Membros";
 import Admin from "../pages/Admin";
+import ResetarSenha from "../pages/ResetarSenha";
+import SolicitarRecuperacao from "../pages/SolicitarRecuperacao";
+import Configuracoes from "../pages/Configuracoes";
 import LayoutPrivado from "../layouts/LayoutPrivado";
 import Aviso from '../pages/Aviso'; 
-import GerenciarAviso from '../pages/GerenciarAviso'; // <-- Importando a nova página
+import GerenciarAviso from '../pages/GerenciarAviso';
 import { RotaPrivada, RotaAdmin } from "../context/RotasProtegidas";
 
 const AppRoutes = () => {
@@ -17,6 +20,8 @@ const AppRoutes = () => {
         {/* ROTAS PÚBLICAS */}
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/resetar-senha" element={<ResetarSenha />} />
+        <Route path="/solicitar-recuperacao" element={<SolicitarRecuperacao />} />
         
         <Route path="/atualizacoes" element={<Aviso />} />
         <Route path="/casadepaz" element={<Aviso />} />
@@ -44,7 +49,17 @@ const AppRoutes = () => {
           }
         />
 
-        {/* NOVA ROTA: Gerenciar Avisos */}
+        <Route
+          path="/configuracoes"
+          element={
+            <RotaPrivada>
+              <LayoutPrivado>
+                <Configuracoes />
+              </LayoutPrivado>
+            </RotaPrivada>
+          }
+        />
+
         <Route
           path="/avisos"
           element={

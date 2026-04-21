@@ -17,41 +17,36 @@ export const fazerLogin = async (email, senha) => {
 };
 
 /**
- * Busca o perfil COMPLETO (Dados do Auth + Nível da tabela pública)
+ * Busca o perfil COMPLETO
  */
 export const buscarPerfil = async () => {
   try {
-    // 1. Pega o usuário logado no Auth
     const { data: { user }, error: userError } = await supabase.auth.getUser();
-    
     if (userError || !user) throw userError;
 
-    // 2. Busca o nível na tabela pública 'perfis' que você criou
     const { data: perfil, error: perfilError } = await supabase
       .from('perfis')
       .select('nivel')
       .eq('id', user.id)
       .single();
 
-    // Se der erro ao buscar na tabela (ex: perfil ainda não criado), logamos o erro
     if (perfilError) {
       console.warn("Aviso: Perfil não encontrado na tabela 'perfis':", perfilError.message);
     }
 
-    // 3. Retorna os dados combinados (Isso resolve o aviso roxo do editor)
+    // AQUI ESTÁ O SEGREDO: Mapeamos o nome_completo para 'nome' para o Contexto ler fácil
     return { 
       ...user, 
-      nome: user.user_metadata?.nome_completo,
-      nivel: perfil?.nivel || 'usuario' // Se não achar na tabela, assume 'usuario'
+      nome: user.user_metadata?.nome_completo || 'Usuário',
+      nivel: perfil?.nivel || 'usuario'
     };
-    
   } catch (erro) {
     throw { erro: erro.message || 'Erro ao buscar perfil' };
   }
 };
 
 /**
- * Registra novo usuário enviando os dados para o Trigger SQL do banco
+ * Registra novo usuário
  */
 export const registrarUsuario = async (nome, email, senha, nivel) => {
   try {
@@ -68,8 +63,22 @@ export const registrarUsuario = async (nome, email, senha, nivel) => {
 
     if (error) throw error;
     return data;
-
   } catch (erro) {
     throw { erro: erro.message || 'Erro ao registrar usuário' };
+  }
+};
+
+/**
+ * Envia e-mail de redefinição de senha
+ */
+export const recuperarSenha = async (email) => {
+  try {
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: 'https://gceuimwrj.vercel.app/resetar-senha',
+    });
+    if (error) throw error;
+    return true;
+  } catch (erro) {
+    throw { erro: erro.message || 'Erro ao enviar recuperação' };
   }
 };

@@ -1,5 +1,5 @@
 import { useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { fazerLogin } from '../Service/usuarioService';
 import './Login.css';
@@ -56,7 +56,7 @@ const Login = () => {
     <div className="login-container">
       <div className="login-card">
         <div className="login-header">
-          <img src="/gceulogo.svg" alt="Logo GCEU" className="login-logo" />
+          <img src="/gceupb.svg" alt="Logo GCEU" className="login-logo" />
           <h1>GCEU</h1>
           <p>Sistema de Gestão</p>
         </div>
@@ -91,6 +91,12 @@ const Login = () => {
           <button type="submit" disabled={carregando} className="login-btn">
             {carregando ? 'Entrando...' : 'Entrar'}
           </button>
+
+          <div className="login-links">
+            <Link to="/solicitar-recuperacao" className="link-recuperacao">
+              Esqueceu a senha?
+            </Link>
+          </div>
         </form>
 
         <div className="login-footer">

@@ -19,8 +19,8 @@ const Footer = () => {
           <h4>Navegação</h4>
           <Link to="/">Home</Link>
           
-          {/* Este agora abre o Aviso.jsx com o espiral redondo */}
-          <Link to="/casadepaz">Casas de Paz</Link>
+          {/* Casa de Paz agora vai para /avisos */}
+          <Link to="/avisos">Casas de Paz</Link>
           
           {/* Este vai direto para a sua tela de Login */}
           <Link to="/login">Administrador</Link>

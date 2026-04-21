@@ -120,6 +120,34 @@
 }
 
 /* ============================================================= 
+   SIDEBAR BOTTOM - CONFIGURAÇÕES E TEMA
+   ============================================================= */
+.sidebar-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+  margin-top: auto;
+  padding-bottom: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 20px;
+}
+
+.theme-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.menu-icon-lucide {
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  color: white;
+}
+
+/* ============================================================= 
    3. MOBILE E BOTÃO HAMBÚRGUER 
    ============================================================= */
 .hamburger-btn {

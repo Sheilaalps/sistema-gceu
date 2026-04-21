@@ -121,6 +121,25 @@
   cursor: not-allowed;
 }
 
+.login-links {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+.link-recuperacao {
+  color: #667eea;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.link-recuperacao:hover {
+  color: #764ba2;
+  text-decoration: underline;
+}
+
 .login-footer {
   text-align: center;
   margin-top: 20px;

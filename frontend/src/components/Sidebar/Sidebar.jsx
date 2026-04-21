@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
+import ThemeContext from '../../context/ThemeContext';
+import { Settings, Moon, Sun } from 'lucide-react';
 import './Sidebar.css';
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { isDark, toggleTheme } = useContext(ThemeContext);
 
   const toggleSidebar = (e) => {
     e.stopPropagation();
@@ -46,15 +49,26 @@ const Sidebar = () => {
               <span className="menu-text">Atualizações</span>
             </Link>
 
-            <Link to="/admin" className="menu-item" onClick={closeSidebar}>
-              <img src="/Vector-2.svg" alt="Admin" className="menu-icon" />
+            <Link to="/avisos" className="menu-item" onClick={closeSidebar}>
+              <img src="/Vector-2.svg" alt="Casa de Paz" className="menu-icon" />
               <span className="menu-text">Casa de Paz</span>
             </Link>
           </nav>
         </div>
 
         <div className="sidebar-bottom">
-          {/* espaço extra */}
+          <Link to="/configuracoes" className="menu-item" onClick={closeSidebar}>
+            <Settings size={20} className="menu-icon-lucide" />
+            <span className="menu-text">Configurações</span>
+          </Link>
+
+          <button className="menu-item theme-toggle" onClick={() => {
+            toggleTheme();
+            closeSidebar();
+          }}>
+            {isDark ? <Sun size={20} className="menu-icon-lucide" /> : <Moon size={20} className="menu-icon-lucide" />}
+            <span className="menu-text">{isDark ? 'Modo Claro' : 'Modo Escuro'}</span>
+          </button>
         </div>
       </aside>
 
