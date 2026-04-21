@@ -58,7 +58,7 @@ const Aviso = () => {
       </h1>
       
       <p style={{ fontSize: '1.2rem', opacity: 0.8, marginBottom: '40px', lineHeight: '1.4' }}>
-        Sheila, estamos preparando essa <br />
+        Estamos preparando essa <br />
         funcionalidade para o sistema GCEU.
       </p>
 
