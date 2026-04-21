@@ -9,29 +9,48 @@
 }
 
 [data-theme="light"] {
-    --bg-primary: #f5f5f5;
-    --bg-secondary: #ffffff;
-    --bg-tertiary: #f0f0f0;
-    --text-primary: #333333;
-    --text-secondary: #666666;
-    --border-color: #667eea;
+    --bg-primary: transparent;
+    --bg-secondary: rgba(255, 255, 255, 0.08);
+    --bg-tertiary: rgba(255, 255, 255, 0.05);
+    --text-primary: #FFFFFF;
+    --text-secondary: rgba(255, 255, 255, 0.7);
+    --border-color: rgba(255, 255, 255, 0.14);
     --accent-color: #e69b3e;
 }
 
+/* RESET */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
- /* outline: 1px solid red !important;*/
+   
 }
-    
 
-body, html, #root {
+/* 🔥 CORREÇÃO PRINCIPAL */
+html, body, #root {
     width: 100%;
-    min-height: 100vh;
+    height: 100%; /* ✅ trocado de min-height */
+}
+
+/* 🔥 TRANSFORMA O ROOT EM LAYOUT FLEX */
+#root {
+    display: flex;
+    flex-direction: column;
+}
+
+/* BODY */
+body {
     background-color: var(--bg-primary) !important;
     color: var(--text-primary);
     font-family: 'Poppins', sans-serif;
     overflow-x: hidden;
     transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Degradê no light mode */
+[data-theme="light"] body,
+[data-theme="light"] html,
+[data-theme="light"] #root {
+    background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%) !important;
+    background-attachment: fixed !important;
 }

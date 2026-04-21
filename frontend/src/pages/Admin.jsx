@@ -51,9 +51,13 @@ const Admin = () => {
     // 2. ENVIAR LINK DE REDEFINIÇÃO DE SENHA
     const handleEnviarLinkSenha = async (e) => {
         e.preventDefault();
+        if (!usuario?.email) {
+            setMensagem({ tipo: 'erro', texto: 'E-mail do usuário não encontrado.' });
+            return;
+        }
         setLoading(true);
         try {
-            const { error } = await supabase.auth.resetPasswordForEmail(usuario.email, {
+            const { error } = await supabase.auth.resetPasswordForEmail(usuario?.email, {
                 // Redireciona para a página de atualização de senha
                 redirectTo: `${window.location.origin}/resetar-senha`,
             });
@@ -108,7 +112,7 @@ const Admin = () => {
     const eAdmin = usuario?.nivel === 'admin';
 
     return (
-        <div className="admin-container">
+        <div className="admin-container" style={{ background: 'linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%)', minHeight: '100vh' }}>
             <header className="admin-header-nav">
                 <div className="admin-nav-buttons">
                     <button onClick={() => navigate('/')} className="btn-back-admin btn-home" title="Ir para Home">
@@ -129,20 +133,20 @@ const Admin = () => {
 
             <div className="admin-grid">
                 {eAdmin && (
-                    <div className="admin-card">
+                    <div className="admin-card card-glass-effect">
                         <h3>Usuários</h3>
                         <button onClick={() => {setExibirForm(!exibirForm); setExibirRelatorio(false); setExibirTrocaSenha(false)}} className="btn-admin-action">
                             {exibirForm ? 'Fechar' : 'Gerenciar'}
                         </button>
                     </div>
                 )}
-                <div className="admin-card">
+                <div className="admin-card card-glass-effect">
                     <h3>Segurança</h3>
                     <button onClick={() => {setExibirTrocaSenha(!exibirTrocaSenha); setExibirForm(false); setExibirRelatorio(false)}} className="btn-admin-action">
                         {exibirTrocaSenha ? 'Cancelar' : 'Redefinir Senha'}
                     </button>
                 </div>
-                <div className="admin-card">
+                <div className="admin-card card-glass-effect">
                     <h3>Relatórios</h3>
                     <button onClick={() => {setExibirRelatorio(!exibirRelatorio); setExibirForm(false); setExibirTrocaSenha(false); buscarRelatorio()}} className="btn-admin-action">
                         {exibirRelatorio ? 'Fechar' : 'Ver Estatísticas'}
@@ -160,7 +164,7 @@ const Admin = () => {
                 <div className="cadastro-usuarios-section card-glass-effect" style={{ textAlign: 'center' }}>
                     <Mail size={40} color="#667eea" style={{ marginBottom: '15px' }} />
                     <h2>Redefinir Senha</h2>
-                    <p>Clique abaixo para receber um link de troca de senha no e-mail: <strong>{usuario.email}</strong></p>
+                    <p>Clique abaixo para receber um link de troca de senha no e-mail: <strong>{usuario?.email}</strong></p>
                     <button onClick={handleEnviarLinkSenha} disabled={loading} className="btn-finalizar" style={{ maxWidth: '300px', marginTop: '20px' }}>
                         {loading ? 'Enviando...' : 'Enviar E-mail de Recuperação'}
                     </button>

@@ -16,7 +16,7 @@
   overflow: hidden; /* Evita barras de rolagem durante a animação */
 
   /* Glassmorphism Premium */
-  background: rgba(255, 255, 255, 0.03) !important;
+  background: rgba(20, 20, 30, 0.65) !important;
   backdrop-filter: blur(25px) saturate(180%);
   -webkit-backdrop-filter: blur(25px) saturate(180%);
   border-right: 1px solid rgba(255, 255, 255, 0.1) !important;
@@ -66,7 +66,7 @@
   height: 50px;
   margin: 0 auto;
   text-decoration: none;
-  color: white;
+  color: var(--text-dark);
   border-radius: 14px;
   transition: all 0.3s ease;
   position: relative;
@@ -81,7 +81,12 @@
 
 .menu-item:hover, .menu-item.active {
   background: rgba(255, 255, 255, 0.1);
-  color: #e69a44; /* Destaque na cor do logo */
+  color: var(--accent);
+}
+
+[data-theme="light"] .menu-item:hover,
+[data-theme="light"] .menu-item.active {
+  background: rgba(0, 0, 0, 0.05);
 }
 
 /* Indicador lateral no item ativo */
@@ -100,7 +105,22 @@
   height: 24px;
   min-width: 24px;
   object-fit: contain;
-  filter: brightness(0) invert(1); /* Ícones brancos */
+  filter: none;
+  transition: filter 0.3s ease;
+}
+
+[data-theme="dark"] .menu-icon {
+  filter: brightness(0) invert(1);
+}
+
+.main-logo {
+  width: 48px;
+  height: auto;
+  transition: filter 0.3s ease;
+}
+
+[data-theme="dark"] .main-logo {
+  filter: brightness(0) invert(1);
 }
 
 .menu-text {
@@ -144,7 +164,7 @@
   width: 24px;
   height: 24px;
   min-width: 24px;
-  color: white;
+  color: var(--text-dark);
 }
 
 /* ============================================================= 
@@ -169,7 +189,7 @@
 .line {
   width: 22px;
   height: 2px;
-  background-color: white;
+  background-color: var(--text-dark);
   transition: 0.3s;
 }
 

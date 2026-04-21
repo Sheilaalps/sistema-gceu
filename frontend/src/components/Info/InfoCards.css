@@ -19,13 +19,13 @@
 
 /* CARD */
 .glass-card {
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--bg-card);
   backdrop-filter: blur(10px);
   
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid var(--border-light);
   border-radius: 24px;
 
-  padding: 12px;
+  padding: 18px;
 
   display: flex;
   flex-direction: column;
@@ -37,7 +37,7 @@
 /* HOVER (mantido mais leve) */
 .glass-card:hover {
   transform: translateY(-6px);
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 /* TOPO DO CARD */
@@ -46,7 +46,7 @@
   height: 80px; /* 🔥 CORRIGIDO (antes 50) */
   background: rgba(255, 255, 255, 0.08);
   border-radius: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 14px;
 }
 
 /* CONTEÚDO */
@@ -54,15 +54,16 @@
   padding: 12px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
 }
 
 .card-content h3 {
   font-size: 1rem;
   font-weight: 600;
+  color: var(--text-dark);
 }
 
 .card-content p {
   font-size: 0.9rem;
-  color: rgba(255,255,255,0.85);
+  color: var(--text-light);
 }

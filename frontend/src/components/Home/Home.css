@@ -91,7 +91,7 @@ body, html, #root {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    background-color: var(--bg-dark);
+    background-color: transparent;
     position: relative;
     z-index: 10;
 }
@@ -100,31 +100,31 @@ body, html, #root {
    2. ESTILO DOS CARDS (VISUAL DA IMAGEM 1)
    ============================================================ */
 .info-card {
-    background-color: #FFFFFF !important;
-    color: #1a1b23 !important;
-    padding: 16px; /* um pouco menor */
-    border-radius: 12px;
-    border-left: 6px solid #003399;
+    background-color: var(--bg-card) !important;
+    color: var(--text-dark) !important;
+    padding: 20px;
+    border-radius: 16px;
+    border-left: 6px solid var(--accent);
 
     width: 100%;
-    max-width: 100%; /* 🔥 REMOVE O LIMITE */
+    max-width: 100%;
 
     margin-bottom: 20px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
     text-align: left;
 }
 
 .info-card h3 {
-    color: #003399 !important;
+    color: var(--text-dark) !important;
     font-size: 1.1rem;
     font-weight: 700;
     margin-bottom: 8px;
 }
 
 .info-card p {
-    color: #444 !important;
+    color: var(--text-light) !important;
     font-size: 0.95rem;
-    line-height: 1.4;
+    line-height: 1.6;
 }
 
 /* ============================================================ 

@@ -1,11 +1,12 @@
 import { useState, useEffect, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { listarMembros } from '../Service/membroService';
 import './Dashboard.css';
 
 const Dashboard = () => {
   const { usuario, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
   const [stats, setStats] = useState({
     totalMembros: 0,
     ativos: 0,
@@ -62,7 +63,10 @@ const Dashboard = () => {
             </span>
           </p>
         </div>
-        <button onClick={logout} className="btn-logout">Sair do Sistema</button>
+        <button onClick={() => {
+          logout();
+          navigate('/login'); // Redireciona para a página de login após o logout
+        }} className="btn-logout">Sair do Sistema</button>
       </div>
 
       {carregando ? (

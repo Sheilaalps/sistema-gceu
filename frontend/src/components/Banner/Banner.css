@@ -21,24 +21,34 @@
 /* --- O CARD DE VIDRO (CONTEÚDO) --- */
 .banner-glass-content {
     width: 100%; 
-    max-width: 1200px; /* Limite para não ficar largo demais em telas ultra-wide */
-    height: 250px; 
+    max-width: 1200px;
+    height: 250px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 
-    /* Efeito Glassmorphism */
-    background: rgba(255, 255, 255, 0.1); 
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
+    background: var(--bg-card);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     
     border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 25px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 16px 50px rgba(15, 23, 42, 0.18);
     
     text-align: center;
     box-sizing: border-box;
+}
+
+[data-theme="light"] .banner-glass-content {
+    background: rgba(255, 255, 255, 0.92);
+    border-color: rgba(15, 23, 42, 0.08);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .banner-glass-content p,
+[data-theme="light"] .banner-glass-content h3 {
+    color: rgba(30, 41, 59, 0.88);
 }
 
 /* --- TÍTULO GCEU --- */

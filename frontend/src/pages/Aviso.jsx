@@ -35,7 +35,7 @@ const Aviso = () => {
     return (
       <div style={{ 
         height: '100vh', width: '100vw', display: 'flex', alignItems: 'center', 
-        justifyContent: 'center', backgroundColor: '#1a1d2b', position: 'fixed', top: 0, left: 0 
+        justifyContent: 'center', background: 'linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%)', position: 'fixed', top: 0, left: 0 
       }}>
         <SpinnerRedondo tamanho={50} />
       </div>
@@ -44,7 +44,7 @@ const Aviso = () => {
 
   return (
     <div style={{ 
-      backgroundColor: '#1a1d2b', height: '100vh', width: '100vw', display: 'flex', 
+      background: 'linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%)', height: '100vh', width: '100vw', display: 'flex', 
       flexDirection: 'column', alignItems: 'center', justifyContent: 'center', 
       color: 'white', textAlign: 'center', position: 'fixed', top: 0, left: 0 
     }}>

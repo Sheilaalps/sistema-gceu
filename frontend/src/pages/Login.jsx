@@ -9,35 +9,40 @@ const Login = () => {
   const [senha, setSenha] = useState('');
   const [erro, setErro] = useState('');
   const [carregando, setCarregando] = useState(false);
-  
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  // FUNÇÃO DE VALIDAÇÃO DE E-MAIL
+  const emailEhValido = (email) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErro('');
-    setCarregando(true);
 
+    // Validação local antes de chamar o servidor
+    if (!emailEhValido(email)) {
+      setErro('Por favor, insira um formato de e-mail válido.');
+      return;
+    }
+
+    setCarregando(true);
+    
     try {
-      // 1. Faz o login no Supabase através do Service
       const resposta = await fazerLogin(email, senha);
-      
-      // No Supabase, os dados do usuário ficam dentro do objeto 'user'
       const usuario = resposta.user;
 
       if (usuario) {
-        // 2. Extrai os dados do metadata (onde salvamos o nome e o nível)
         const userData = {
           id: usuario.id,
-          nome: usuario.user_metadata?.full_name || 'Usuário',
+          email: usuario.email,
+          nome: usuario.user_metadata?.nome_completo || usuario.user_metadata?.full_name || 'Usuário',
           nivel: usuario.user_metadata?.nivel || 'lider',
         };
 
-        // 3. Atualiza o seu contexto global (AuthContext)
-        // O Supabase retorna o token dentro de resposta.session
         login(userData, resposta.session?.access_token);
 
-        // 4. Lógica de Redirecionamento baseada no nível
         if (userData.nivel === 'admin') {
           navigate('/admin');
         } else {
@@ -45,8 +50,8 @@ const Login = () => {
         }
       }
     } catch (err) {
-      // Pega a mensagem de erro que configuramos no usuarioService.js
-      setErro(err.erro || 'Erro ao fazer login. Verifique suas credenciais.');
+      // Exibe erros do Supabase (ex: senha incorreta ou usuário não encontrado)
+      setErro(err.erro || 'Credenciais inválidas. Tente novamente.');
     } finally {
       setCarregando(false);
     }
@@ -56,8 +61,10 @@ const Login = () => {
     <div className="login-container">
       <div className="login-card">
         <div className="login-header">
-          <img src="/gceupb.svg" alt="Logo GCEU" className="login-logo" />
-          <h1>GCEU</h1>
+          <img
+            src="/gceupb-black.svg"
+          />
+          <h1>Bem-vindo ao</h1>
           <p>Sistema de Gestão</p>
         </div>
 
@@ -66,30 +73,31 @@ const Login = () => {
 
           <div className="form-group">
             <label htmlFor="email">Email</label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              placeholder="seuemail@email.com"
+            <input 
+              type="email" 
+              id="email" 
+              value={email} 
+              onChange={(e) => setEmail(e.target.value)} 
+              required 
+              placeholder="seuemail@exemplo.com"
+              className={erro && !emailEhValido(email) ? 'input-erro' : ''}
             />
           </div>
 
           <div className="form-group">
             <label htmlFor="senha">Senha</label>
-            <input
-              type="password"
-              id="senha"
-              value={senha}
-              onChange={(e) => setSenha(e.target.value)}
-              required
-              placeholder="Sua senha"
+            <input 
+              type="password" 
+              id="senha" 
+              value={senha} 
+              onChange={(e) => setSenha(e.target.value)} 
+              required 
+              placeholder="Sua senha" 
             />
           </div>
 
           <button type="submit" disabled={carregando} className="login-btn">
-            {carregando ? 'Entrando...' : 'Entrar'}
+            {carregando ? 'Validando...' : 'Entrar'}
           </button>
 
           <div className="login-links">
@@ -97,11 +105,24 @@ const Login = () => {
               Esqueceu a senha?
             </Link>
           </div>
+
+          <div className="login-actions">
+            <button
+              type="button"
+              className="btn-secondary"
+              onClick={() => navigate(-1)}
+            >
+              Voltar
+            </button>
+            <Link to="/" className="btn-secondary btn-home-link">
+              Home
+            </Link>
+          </div>
         </form>
 
         <div className="login-footer">
-          <p>@2023 GCEU. Todos os direitos reservados</p>
-          <p> A Lei Geral de Proteção de Dados (LGPD), oficialmente a Lei nº 13.709/2018</p>
+          <p>© 2026 GCEU. Todos os direitos reservados.</p>
+          <p>Em conformidade com a LGPD (Lei nº 13.709/2018).</p>
         </div>
       </div>
     </div>

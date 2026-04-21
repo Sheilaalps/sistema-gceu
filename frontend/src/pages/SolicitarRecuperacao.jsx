@@ -1,13 +1,11 @@
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import ThemeContext from '../context/ThemeContext';
 import { supabase } from '../Service/supabaseClient';
 import { ArrowLeft, Mail, Check, Loader } from 'lucide-react';
 import './SolicitarRecuperacao.css';
 
 const SolicitarRecuperacao = () => {
   const navigate = useNavigate();
-  const { isDark } = useContext(ThemeContext);
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [step, setStep] = useState(1); // 1: email input, 2: enviado com sucesso
