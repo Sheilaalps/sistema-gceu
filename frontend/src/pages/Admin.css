@@ -331,3 +331,67 @@
         grid-column: span 1;
     }
 }
+select {
+  color: #565555; /* cor do "placeholder" */
+}
+
+/* quando escolher algo */
+select:valid {
+  color: #fff;
+}
+
+/* ============================================================= 
+   SELECT MELHORADO (ANIMAÇÃO + VISUAL)
+   ============================================================= */
+
+/* wrapper pra seta */
+.select-wrapper {
+    position: relative;
+}
+
+/* select base */
+.form-cadastro-admin select {
+    width: 100%;
+    padding: 12px;
+    padding-right: 40px; /* espaço pra seta */
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 6px;
+    font-size: 14px;
+    outline: none;
+
+    background: #2f3555;
+    color: #aaa;
+
+    appearance: none; /* remove estilo padrão */
+    transition: all 0.25s ease;
+}
+
+/* foco suave */
+.form-cadastro-admin select:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+    transform: scale(1.02);
+}
+
+/* quando seleciona valor */
+.form-cadastro-admin select:valid {
+    color: #fff;
+}
+
+/* seta custom */
+.select-wrapper::after {
+    content: "⌄";
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #aaa;
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+/* anima a seta */
+.select-wrapper:focus-within::after {
+    transform: translateY(-50%) rotate(180deg);
+    color: #667eea;
+}

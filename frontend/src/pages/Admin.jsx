@@ -208,14 +208,21 @@ const Admin = () => {
                             <div className="meter-container"><div className={`meter-bar strength-${senhaForca}`}></div></div>
                         </div>
 
-                        <select required value={form.nivel} onChange={e => setForm({...form, nivel: e.target.value})}>
-                            <option value="" disabled>Selecione um cargo</option>
-                            <option value="admin">Administrador</option>
-                            <option value="lider">Líder</option>
-                            <option value="anfitriao">Anfitrião</option>
-                            <option value="samaritano">Samaritano</option>
-                            <option value="secretaria">Secretário(a)</option>
-                        </select>
+                       <select
+  required
+  value={form.nivel || ""}
+  onChange={e => setForm({ ...form, nivel: e.target.value })}
+>
+  <option value="" disabled hidden>
+    Selecione um cargo
+  </option>
+
+  <option value="admin">Administrador</option>
+  <option value="lider">Líder</option>
+  <option value="anfitriao">Anfitrião</option>
+  <option value="samaritano">Samaritano</option>
+  <option value="secretaria">Secretário(a)</option>
+</select>
                         <button type="submit" disabled={loading} className="btn-finalizar">Finalizar Cadastro</button>
                     </form>
                 </div>
