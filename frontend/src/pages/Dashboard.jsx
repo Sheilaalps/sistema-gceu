@@ -105,14 +105,14 @@ const Dashboard = () => {
         <h2>Acesso Rápido</h2>
         <div className="modulos-grid">
           <Link to="/membros" className="modulo-card">
-            <span className="modulo-icon">👥</span>
+            <span className="modulo-icon"><img src="./group.png" alt="Check" /></span>
             <h3>Membros</h3>
             <p>Lista e busca</p>
           </Link>
 
           {(usuario?.nivel === 'lider' || usuario?.nivel === 'admin') && (
             <Link to="/presenca" className="modulo-card">
-              <span className="modulo-icon">📝</span>
+              <span className="modulo-icon"><img src="./check.png" alt="Check" /></span>
               <h3>Presença</h3>
               <p>Relatório semanal</p>
             </Link>
@@ -121,7 +121,7 @@ const Dashboard = () => {
           {/* NOVO CARD: Gerenciar Avisos (Disponível para os cargos que você pediu) */}
           {podeGerenciarAvisos && (
             <Link to="/avisos" className="modulo-card card-avisos-edit">
-              <span className="modulo-icon">📢</span>
+              <span className="modulo-icon"><img src="./comunica.png" alt="Comunicados" /></span>
               <h3>Comunicados</h3>
               <p>Editar avisos da Home</p>
             </Link>
@@ -129,7 +129,7 @@ const Dashboard = () => {
 
           {usuario?.nivel === 'admin' && (
             <Link to="/admin" className="modulo-card">
-              <span className="modulo-icon">⚙️</span>
+              <span className="modulo-icon"><img src="./add.png" alt="Settings" /></span>
               <h3>Gestão</h3>
               <p>Cadastrar Líderes</p>
             </Link>

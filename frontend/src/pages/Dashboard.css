@@ -20,7 +20,7 @@
 }
 
 .dashboard-info p {
-  color: #666;
+  color: #aeaeae;
   margin: 0;
 }
 
@@ -88,7 +88,7 @@
 .dashboard-menu h2 {
   font-size: 24px;
   margin: 0 0 20px 0;
-  color: #333;
+  color: #fffcfc;
 }
 
 .modulos-grid {
