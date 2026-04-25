@@ -19,14 +19,14 @@ JWT_SECRET=seu_secret_aqui_com_minimo_32_caracteres
 
 ---
 
-### 2️⃣ WebSocket Token vai no Header, NUNCA na URL
+### 2️⃣ WebSocket Token no Navegador
 ```javascript
 // ❌ ERRADO - Bloqueado por segurança
 ws://localhost:3000?token=xyz
 
-// ✅ CERTO - Permitido
-ws://localhost:3000
-// com header: Authorization: Bearer token
+// ✅ CERTO - Via Subprotocolo (Única forma segura no browser)
+const token = "seu_jwt_aqui";
+const ws = new WebSocket('ws://localhost:3000', [token]);
 ```
 
 ---

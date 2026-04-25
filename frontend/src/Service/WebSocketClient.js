@@ -1,110 +1,144 @@
 class WebSocketClient {
-  constructor(url, token, options = {}) {
-    this.url = url || 'ws://localhost:3000';
-    this.token = token;
-    this.ws = null;
-    this.reconnectAttempts = 0;
-    this.maxReconnectAttempts = options.maxReconnectAttempts || 5;
-    this.reconnectDelay = options.reconnectDelay || 3000;
-    this.maxReconnectDelay = options.maxReconnectDelay || 30000;
-    this.heartbeatInterval = options.heartbeatInterval || 30000;
-    this.heartbeatTimer = null;
-    this.listeners = new Map();
-    this.isIntentionallyClosed = false;
-  }
+    constructor(url, token, options = {}) {
+        this.url = url || 'ws://localhost:3000';
+        
+        let rawToken = typeof token === 'object' 
+            ? (token.access_token || token.token || JSON.stringify(token)) 
+            : token;
+        if (typeof rawToken === 'string' && rawToken.startsWith('Bearer ')) {
+            rawToken = rawToken.slice(7);
+        }
+        this.token = rawToken;
 
-  connect() {
-    if (this.ws) return Promise.resolve();
+        this.ws = null;
+        this.reconnectAttempts = 0;
+        this.maxReconnectAttempts = options.maxReconnectAttempts || 5;
+        this.reconnectDelay = options.reconnectDelay || 3000;
+        this.maxReconnectDelay = options.maxReconnectDelay || 30000;
+        this.heartbeatInterval = options.heartbeatInterval || 30000;
+        this.heartbeatTimer = null;
+        this.listeners = new Map();
+        this.isIntentionallyClosed = false;
+    }
 
-    return new Promise((resolve, reject) => {
-      try {
-        // Conexão limpa para evitar o bloqueio "Token na URL"
-        this.ws = new WebSocket(this.url);
+    connect() {
+        if (this.ws && (this.ws.readyState === WebSocket.OPEN || this.ws.readyState === WebSocket.CONNECTING)) {
+            return Promise.resolve();
+        }
 
-        this.ws.onopen = () => {
-          console.log('%c[WebSocket] ✓ Canal Aberto - Autenticando...', 'color: #00ff00;');
-          
-          // Autenticação via mensagem (Padrão seguro do seu servidor)
-          this.send({ type: 'auth', token: this.token });
+        return new Promise((resolve, reject) => {
+            try {
+                // ✅ Token via subprotocolo — como o backend espera
+                this.ws = new WebSocket(this.url, [this.token]);
 
-          this.reconnectAttempts = 0;
-          this.startHeartbeat();
-          this.emit('connected');
-          resolve();
-        };
+                this.ws.onopen = () => {
+                    console.log('%c[WebSocket] ✓ Conectado', 'color: #00ff00;');
+                    this.reconnectAttempts = 0;
+                    this.startHeartbeat();
+                    this.emit('connected');
+                    resolve();
+                };
 
-        this.ws.onmessage = (event) => {
-          try {
-            const message = JSON.parse(event.data);
-            if (message.type === 'ping') { this.send({ type: 'pong' }); return; }
-            this.emit('message', message);
-          } catch { /* erro de parse */ }
-        };
+                this.ws.onmessage = (event) => {
+                    try {
+                        const message = JSON.parse(event.data);
+                        this.emit('message', message);
+                    } catch {
+                        this.emit('message', event.data);
+                    }
+                };
 
-        this.ws.onerror = (err) => {
-          this.emit('error', err);
-          reject(err);
-        };
-this.ws.onclose = () => {
-          this.stopHeartbeat();
-          if (!this.isIntentionallyClosed) {
-            this.attemptReconnect();
-          } else {
-            this.emit('disconnected');
-          }
-        };
-      } catch (err) {
-        reject(err);
-      }
-    });
-  }
+                this.ws.onerror = (event) => {
+                    const mensagem = event?.message || 'Falha na conexão WebSocket';
+                    console.error('[WebSocket] Erro na conexão:', mensagem);
+                    this.emit('error', mensagem);
+                    reject(new Error(mensagem));
+                };
 
-  // ... (restante dos métodos attemptReconnect, heartbeat, send, on, emit, disconnect permanecem iguais)
-  
-  attemptReconnect() {
-    if (this.reconnectAttempts >= this.maxReconnectAttempts) return;
-    this.reconnectAttempts++;
-    const delay = Math.min(this.reconnectDelay * Math.pow(2, this.reconnectAttempts - 1), this.maxReconnectDelay);
-    setTimeout(() => {
-      this.ws = null; // Garante que a ref seja limpa para a nova tentativa
-      this.connect().catch(() => {});
-    }, delay);
-  }
+                this.ws.onclose = (event) => {
+                    this.stopHeartbeat();
+                    this.emit('disconnected');
+                    if (!this.isIntentionallyClosed) {
+                        console.warn(`[WebSocket] Desconectado (código ${event.code}), reconectando...`);
+                        this.attemptReconnect();
+                    }
+                };
 
-  startHeartbeat() {
-    this.heartbeatTimer = setInterval(() => {
-      if (this.ws?.readyState === 1) this.send({ type: 'ping' });
-    }, this.heartbeatInterval);
-  }
+            } catch (err) {
+                this.emit('error', err.message || 'Erro ao criar WebSocket');
+                reject(err);
+            }
+        });
+    }
 
-  stopHeartbeat() {
-    clearInterval(this.heartbeatTimer);
-    this.heartbeatTimer = null;
-  }
+    attemptReconnect() {
+        if (this.reconnectAttempts >= this.maxReconnectAttempts) {
+            console.error('[WebSocket] Máximo de tentativas atingido.');
+            this.emit('error', 'Máximo de tentativas de reconexão atingido');
+            return;
+        }
 
-  send(message) {
-    if (this.ws?.readyState !== 1) return false;
-    try {
-      this.ws.send(JSON.stringify(message));
-      return true;
-    } catch { return false; }
-  }
+        this.reconnectAttempts++;
+        const delay = Math.min(
+            this.reconnectDelay * Math.pow(2, this.reconnectAttempts - 1),
+            this.maxReconnectDelay
+        );
 
-  on(eventType, callback) {
-    if (!this.listeners.has(eventType)) this.listeners.set(eventType, []);
-    this.listeners.get(eventType).push(callback);
-  }
+        console.log(`[WebSocket] Tentativa ${this.reconnectAttempts} em ${delay}ms...`);
 
-  emit(eventType, data) {
-    this.listeners.get(eventType)?.forEach(callback => callback(data));
-  }
+        setTimeout(() => {
+            this.ws = null;
+            this.connect().catch(() => {});
+        }, delay);
+    }
 
-  disconnect() {
-    this.isIntentionallyClosed = true;
-    this.stopHeartbeat();
-    this.ws?.close(1000);
-    this.ws = null;
-  }
+    startHeartbeat() {
+        this.stopHeartbeat();
+        this.heartbeatTimer = setInterval(() => {
+            if (this.ws?.readyState === WebSocket.OPEN) {
+                this.ws.send(JSON.stringify({ type: 'ping' }));
+            }
+        }, this.heartbeatInterval);
+    }
+
+    stopHeartbeat() {
+        if (this.heartbeatTimer) {
+            clearInterval(this.heartbeatTimer);
+            this.heartbeatTimer = null;
+        }
+    }
+
+    send(message) {
+        if (this.ws?.readyState !== WebSocket.OPEN) {
+            console.warn('[WebSocket] Tentativa de envio sem conexão ativa');
+            return false;
+        }
+        try {
+            this.ws.send(typeof message === 'object' ? JSON.stringify(message) : message);
+            return true;
+        } catch (err) {
+            console.error('[WebSocket] Erro ao enviar:', err);
+            return false;
+        }
+    }
+
+    on(eventType, callback) {
+        if (!this.listeners.has(eventType)) this.listeners.set(eventType, []);
+        this.listeners.get(eventType).push(callback);
+    }
+
+    emit(eventType, data) {
+        this.listeners.get(eventType)?.forEach(callback => callback(data));
+    }
+
+    disconnect() {
+        this.isIntentionallyClosed = true;
+        this.stopHeartbeat();
+        if (this.ws) {
+            this.ws.close(1000, 'Desconexão intencional');
+            this.ws = null;
+        }
+    }
 }
 
 export default WebSocketClient;

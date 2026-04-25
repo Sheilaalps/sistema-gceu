@@ -1,109 +1,152 @@
 import { createContext, useState, useEffect, useRef, useMemo } from 'react';
+import { supabase } from '../Service/supabaseClient';
 import WebSocketClient from '../Service/WebSocketClient';
 
-// Criamos o contexto
 const AuthContext = createContext();
 
-/**
- * AUTH PROVIDER 
- */
 function AuthProvider({ children }) {
-  // Inicialização direta do localStorage: resolve o erro de "setState synchronously within an effect"
-  const [usuario, setUsuario] = useState(() => {
-    const salvo = localStorage.getItem('usuario');
-    try {
-      return salvo && salvo !== 'null' ? JSON.parse(salvo) : null;
-    } catch { return null; }
-  });
+    const [usuario, setUsuario] = useState(() => {
+        try {
+            const salvo = localStorage.getItem('usuario');
+            return salvo && salvo !== 'null' ? JSON.parse(salvo) : null;
+        } catch {
+            return null;
+        }
+    });
 
-  const [token, setToken] = useState(() => {
-    const salvo = localStorage.getItem('token');
-    return salvo && salvo !== 'null' ? salvo : null;
-  });
+    const [token, setToken] = useState(() => {
+        const salvo = localStorage.getItem('token');
+        return salvo && salvo !== 'null' ? salvo : null;
+    });
 
-  const [wsConnected, setWsConnected] = useState(false);
-  const [wsError, setWsError] = useState(null);
-  const wsRef = useRef(null);
+    const [wsConnected, setWsConnected] = useState(false);
+    const [wsError, setWsError] = useState(null);
+    const wsRef = useRef(null);
 
-  // Gerenciador do WebSocket
-  useEffect(() => {
-    if (!token || token === 'null') {
-      if (wsRef.current) {
-        wsRef.current.disconnect();
-        wsRef.current = null;
-        // Agendamento para o próximo ciclo: evita o erro de cascading renders
-        setTimeout(() => setWsConnected(false), 0);
-      }
-      return;
-    }
+    // 🔌 WEBSOCKET - escuta renovação automática de token do Supabase
+    useEffect(() => {
+        let active = true;
 
-    const wsUrl = import.meta.env.VITE_WEBSOCKET_URL || 'ws://localhost:3000';
-    
-    if (!wsRef.current) {
-      const client = new WebSocketClient(wsUrl, token, {
-        maxReconnectAttempts: 5,
-        reconnectDelay: 5000,
-      });
+        const conectarWS = (accessToken) => {
+            if (wsRef.current) wsRef.current.disconnect();
 
-      wsRef.current = client;
+            if (!accessToken) {
+                setWsConnected(false);
+                return;
+            }
 
-      client.on('connected', () => {
-        setWsConnected(true);
-        setWsError(null);
-      });
+            const wsUrl = import.meta.env.VITE_WEBSOCKET_URL || 'ws://localhost:3000';
+            const client = new WebSocketClient(wsUrl, accessToken, {
+                maxReconnectAttempts: 5,
+                reconnectDelay: 3000,
+            });
 
-      client.on('disconnected', () => setWsConnected(false));
-      client.on('error', (err) => setWsError(err));
+            wsRef.current = client;
 
-      client.connect().catch(() => {});
-    }
+            client.on('connected', () => {
+                if (active) { setWsConnected(true); setWsError(null); }
+            });
+            client.on('disconnected', () => {
+                if (active) setWsConnected(false);
+            });
+            client.on('error', (err) => {
+                if (active) {
+                    setWsError(err || 'Erro desconhecido na conexão');
+                    console.error('[WebSocket] Erro:', err);
+                }
+            });
 
-    return () => {
-      if (wsRef.current) {
-        wsRef.current.disconnect();
-        wsRef.current = null;
-      }
+            client.connect().catch(() => {});
+        };
+
+        // Escuta mudanças de sessão (login, logout, renovação de token)
+        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+            if (!active) return;
+            if (session?.access_token) {
+                setToken(session.access_token);
+                localStorage.setItem('token', session.access_token);
+                conectarWS(session.access_token);
+            } else {
+                setToken(null);
+                localStorage.removeItem('token');
+                conectarWS(null);
+            }
+        });
+
+        // Conecta com sessão atual ao inicializar
+        supabase.auth.getSession().then(({ data }) => {
+            if (active && data.session?.access_token) {
+                conectarWS(data.session.access_token);
+            }
+        });
+
+        return () => {
+            active = false;
+            subscription.unsubscribe();
+            if (wsRef.current) {
+                wsRef.current.disconnect();
+                wsRef.current = null;
+            }
+        };
+    }, []); // sem dependência de [token] — Supabase gerencia isso
+
+    // 🔑 LOGIN
+    const login = (dadosUsuario, tokenRecebido) => {
+        localStorage.setItem('token', tokenRecebido);
+        localStorage.setItem('usuario', JSON.stringify(dadosUsuario));
+        localStorage.setItem('loginTime', Date.now().toString());
+        setToken(tokenRecebido);
+        setUsuario(dadosUsuario);
     };
-  }, [token]);
 
-  const login = (dadosUsuario, tokenRecebido) => {
-    localStorage.setItem('token', tokenRecebido);
-    localStorage.setItem('usuario', JSON.stringify(dadosUsuario));
-    setToken(tokenRecebido);
-    setUsuario(dadosUsuario);
-  };
+    // 🚪 LOGOUT
+    const logout = async () => {
+        if (wsRef.current) {
+            wsRef.current.disconnect();
+            wsRef.current = null;
+        }
+        await supabase.auth.signOut();
+        localStorage.removeItem('token');
+        localStorage.removeItem('usuario');
+        localStorage.removeItem('loginTime');
+        setToken(null);
+        setUsuario(null);
+        setWsConnected(false);
+    };
 
-  const logout = () => {
-    if (wsRef.current) {
-      wsRef.current.disconnect();
-      wsRef.current = null;
-    }
-    localStorage.removeItem('token');
-    localStorage.removeItem('usuario');
-    setToken(null);
-    setUsuario(null);
-    setWsConnected(false);
-  };
+    // ⏱️ LOGOUT AUTOMÁTICO (15 MINUTOS de inatividade)
+    useEffect(() => {
+        const TEMPO_MAX = 15 * 60 * 1000;
 
-  // useMemo protege contra re-renderizações desnecessárias e erro de acesso a Ref no render
-  const value = useMemo(() => ({
-    usuario,
-    token,
-    login,
-    logout,
-    estaAutenticado: !!token && token !== 'null',
-    wsConnected,
-    wsError,
-    // Acessar a ref dentro de uma função é a forma segura exigida pelo React
-    enviarMensagem: (data) => wsRef.current?.send(data)
-  }), [usuario, token, wsConnected, wsError]);
+        const verificarSessao = async () => {
+            const loginTime = localStorage.getItem('loginTime');
+            if (loginTime && Date.now() - parseInt(loginTime) > TEMPO_MAX) {
+                await logout();
+                window.location.href = '/login';
+            }
+        };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
+        verificarSessao();
+        const timer = setInterval(verificarSessao, 60 * 1000);
+        return () => clearInterval(timer);
+    }, []);
+
+    const value = useMemo(() => ({
+        usuario,
+        token,
+        login,
+        logout,
+        estaAutenticado: !!token && token !== 'null',
+        wsConnected,
+        wsError,
+        enviarMensagem: (data) => wsRef.current?.send(data)
+    }), [usuario, token, wsConnected, wsError]);
+
+    return (
+        <AuthContext.Provider value={value}>
+            {children}
+        </AuthContext.Provider>
+    );
 }
 
-// Exportação separada para o Fast Refresh do Vite funcionar
 export { AuthContext, AuthProvider };

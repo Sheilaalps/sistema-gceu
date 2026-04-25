@@ -10,7 +10,7 @@ const gerarToken = (usuario) => {
       nivel: usuario.nivel,
     },
     JWT_SECRET,
-    { expiresIn: '7d' }
+    { expiresIn: '15m' }
   );
 };
 

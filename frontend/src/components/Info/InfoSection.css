@@ -1,109 +1,126 @@
 /* ============================================================ 
-   INFO SECTION - GLASS EFFECT
+   ESTRUTURA PÚBLICA (VISÍVEL PARA TODOS)
    ============================================================ */
 
-.info-container-dark {
-  background: linear-gradient(135deg, #1a1b23, #2c2f3a);
-  padding: 40px 20px;
-
-  max-width: 1000px;
+.info-dashboard {
+  padding: 20px;
+  max-width: 1200px;
   margin: 0 auto;
-
-  color: white;
 }
 
-/* HEADER */
-.info-header h2 {
-  font-size: 2rem;
-  font-weight: 800;
-  margin-bottom: 5px;
+/* Separação dos 3 Cards */
+.grid-cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px; 
+  margin-top: 20px;
 }
 
-.info-header span {
-  font-size: 1rem;
-  color: rgba(255,255,255,0.6);
-  display: block;
-  margin-bottom: 30px;
-}
-
-/* LISTA */
-.avisos-list {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-/* ============================================================ 
-   CARD COM EFEITO VIDRO
-   ============================================================ */
-
-.aviso-card {
-  display: flex;
-  border-radius: 16px;
-  overflow: hidden;
-
-  /* 🔥 EFEITO VIDRO */
-  background: rgba(255, 255, 255, 0.08);
+.card-glass {
+  background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-
-  border: 1px solid rgba(255, 255, 255, 0.15);
-
-  max-width: 700px;
-  margin: 0 auto;
-
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-
-  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
-/* HOVER SUAVE */
-.aviso-card:hover {
-  transform: translateY(-4px);
-  background: rgba(255, 255, 255, 0.12);
+/* Tags de Cores (Sobre, Avisos, Notícias) */
+.card-tag {
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
 }
 
-/* INDICADOR */
-.blue-indicator {
-  width: 6px;
-  background: linear-gradient(180deg, #0055ff, #003380);
-}
-
-/* CONTEÚDO */
-.aviso-content {
-  padding: 16px;
-  color: white;
-}
-
-/* TÍTULO */
-.aviso-content h4 {
-  margin: 0 0 6px 0;
-  color: #ffffff;
-  font-size: 1.1rem;
-  font-weight: 600;
-}
-
-/* TEXTO */
-.aviso-content p {
-  margin: 0;
-  font-size: 0.9rem;
-  line-height: 1.5;
-  color: rgba(255,255,255,0.8);
-}
+.tag-blue { color: #4da3ff; border-color: rgba(77, 163, 255, 0.3); }
+.tag-yellow { color: #ffae00; border-color: rgba(255, 174, 0, 0.3); }
+.tag-green { color: #00ff88; border-color: rgba(0, 255, 136, 0.3); }
 
 /* ============================================================ 
-   RESPONSIVO
+   SISTEMA DE EDIÇÃO (APENAS PARA USUÁRIOS LOGADOS)
    ============================================================ */
-@media (max-width: 768px) {
-  .info-container-dark {
-    padding: 30px 15px;
-  }
 
-  .aviso-card {
-    max-width: 100%;
-  }
+/* Ocultar elementos de edição por padrão (Segurança Visual) */
+.btn-edit-small, .btn-novo, .aviso-form-glass {
+  display: none; 
+}
 
-  .info-header h2 {
-    font-size: 1.6rem;
+/* O React vai injetar esses elementos apenas se 'usuario' for true, 
+   então definimos o display como flex/block apenas quando existirem */
+body:has(.admin-logged-in) .btn-edit-small,
+body:has(.admin-logged-in) .btn-novo {
+  display: flex;
+}
+
+/* Formulário de Edição (Modal) */
+.aviso-form-glass {
+  display: block; /* Só aparece via condição React */
+  position: relative;
+  background: rgba(30, 31, 41, 0.98);
+  border: 1px solid rgba(0, 85, 255, 0.4);
+  border-radius: 20px;
+  padding: 30px;
+  max-width: 450px; 
+  width: 90%;
+  margin: 20px auto;
+  box-sizing: border-box; /* Garante que campos não vazem */
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+}
+
+/* Ajuste Mobile: Transforma edição em sobreposição */
+@media (max-width: 600px) {
+  .aviso-form-glass {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 95%;
+    margin: 0;
   }
+}
+
+/* Campos de entrada refinados */
+.aviso-form-glass input, 
+.aviso-form-glass textarea {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 15px;
+  color: white;
+  margin-bottom: 15px;
+  box-sizing: border-box;
+}
+
+.form-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.btn-save {
+  flex: 2;
+  background: #0055ff;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn-cancel {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.05);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 12px;
+  border-radius: 10px;
 }
