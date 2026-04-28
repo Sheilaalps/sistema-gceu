@@ -80,27 +80,35 @@
   flex-direction: column;
 }
 
+/* CORRIGIDO: Email e Senha aparecendo em preto */
 .form-group label {
-  font-weight: 700;
+  display: block;
+  font-size: 0.85rem;
+  color: #111827 !important; 
+  font-weight: 700; 
   margin-bottom: 8px;
-  color: #1f2937;
-  font-size: 14px;
 }
 
+/* CORRIGIDO: Caixas brancas com texto cinza escuro */
 .form-group input {
   padding: 14px;
   border: 1px solid #d1d5db;
   border-radius: 12px;
   font-size: 14px;
   transition: border-color 0.3s, background-color 0.3s, color 0.3s;
-  background: #ffffff;
-  color: #111827;
+  background: #ffffff !important; /* Fundo branco */
+  color: #4b5563 !important;      /* Texto cinza escuro */
+}
+
+.form-group input::placeholder {
+  color: #9ca3af !important; /* Cor do exemplo dentro da caixa */
 }
 
 .form-group input:focus {
   outline: none;
-  border-color: #4f46e5;
+  border-color: #070d24;
   box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.18);
+  background: #ffffff !important;
 }
 
 .login-btn {

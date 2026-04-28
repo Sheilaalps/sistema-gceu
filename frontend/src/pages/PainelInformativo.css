@@ -1,0 +1,172 @@
+.painel-container {
+  background-color: #0f172a; /* Azul marinho muito escuro */
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  color: white;
+  overflow: hidden;
+}
+
+/* --- SEÇÃO SUPERIOR: SLIDES --- */
+.gceu-section {
+  flex: 1.5; /* Ajustado para dar equilíbrio visual */
+  padding: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-gceu-slide {
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  padding: 40px; /* Reduzi um pouco para telas menores */
+  border-radius: 30px;
+  text-align: center;
+  width: 100%;
+}
+
+.tag-gceu {
+  background: #2563eb;
+  padding: 8px 20px;
+  border-radius: 50px;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.card-gceu-slide h2 {
+  font-size: 3rem; /* Ajustado de 4rem para evitar quebras estranhas */
+  margin: 20px 0;
+  text-transform: uppercase;
+}
+
+.card-gceu-slide p {
+  font-size: 1.8rem;
+  color: #cbd5e1;
+}
+
+.divider {
+  height: 3px;
+  background: #2563eb;
+  width: 100px;
+  margin: 20px auto;
+}
+
+/* --- SEÇÃO DE AVISOS (INFERIOR) --- */
+.avisos-section {
+  flex: 1;
+  background: #1e293b;
+  padding: 20px 40px;
+  border-top: 5px solid #fbbf24; /* Linha amarela de destaque */
+  display: flex;
+  flex-direction: column;
+}
+
+.header-avisos {
+  margin-bottom: 10px;
+}
+
+.tag-yellow {
+  color: #fbbf24;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* LISTA COM SCROLL VERTICAL CORRIGIDO */
+.avisos-list {
+  display: flex;
+  flex-direction: column; /* Itens um embaixo do outro */
+  gap: 15px;
+  overflow-y: auto; /* ATIVA O SCROLL PARA BAIXO */
+  flex: 1;
+  padding-right: 10px;
+}
+
+.aviso-item {
+  background: rgba(251, 191, 36, 0.05);
+  border: 1px solid rgba(251, 191, 36, 0.2);
+  padding: 20px;
+  border-radius: 15px;
+  transition: 0.3s;
+}
+
+.aviso-item:hover {
+  background: rgba(251, 191, 36, 0.1);
+}
+
+.tag-aviso-mini, .tag-noticia-mini {
+  font-size: 0.7rem;
+  padding: 3px 10px;
+  border-radius: 4px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  display: inline-block;
+}
+
+.tag-aviso-mini { background: #fbbf24; color: #000; }
+.tag-noticia-mini { background: #10b981; color: #fff; }
+
+.aviso-item p {
+  font-size: 1.1rem;
+  line-height: 1.4;
+  color: #e2e8f0;
+  margin: 0;
+}
+
+/* Estilização da barra de scroll para ficar discreta */
+.avisos-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.avisos-list::-webkit-scrollbar-thumb {
+  background: rgba(251, 191, 36, 0.3);
+  border-radius: 10px;
+}
+/* Container principal precisa ocupar a tela toda sem rolar a página inteira */
+.painel-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; 
+}
+
+.avisos-section {
+  flex: 1; /* Ocupa o espaço restante da tela */
+  display: flex;
+  flex-direction: column;
+  background: #1e293b;
+  padding: 20px 40px;
+  border-top: 5px solid #fbbf24;
+  min-height: 0; /* Essencial para o scroll interno funcionar no flexbox */
+}
+
+/* LISTA COM SCROLL VERTICAL */
+.avisos-list {
+  flex: 1;
+  overflow-y: auto; /* ATIVA O SCROLL PARA BAIXO */
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding-right: 10px;
+  margin-top: 10px;
+}
+
+/* Estilo para a barra de scroll ficar bonita */
+.avisos-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.avisos-list::-webkit-scrollbar-thumb {
+  background: rgba(251, 191, 36, 0.3);
+  border-radius: 10px;
+}
+
+.aviso-item {
+  background: rgba(251, 191, 36, 0.05);
+  border: 1px solid rgba(251, 191, 36, 0.2);
+  padding: 15px;
+  border-radius: 12px;
+}
+
+.tag-aviso-mini { background: #fbbf24; color: #000; padding: 2px 8px; border-radius: 4px; font-weight: bold; font-size: 0.7rem; }
+.tag-noticia-mini { background: #10b981; color: #fff; padding: 2px 8px; border-radius: 4px; font-weight: bold; font-size: 0.7rem; }
